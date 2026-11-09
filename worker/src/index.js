@@ -470,6 +470,130 @@ async function ghLastCommitDate(env) {
   return iso || null;
 }
 
+/* ------------------------------------------------------------------ *
+ * Pages deployment recovery (legacy branch builds).
+ *
+ * Failure mode seen in production: a Sheet sync commit lands on GitHub
+ * but the corresponding Pages deployment fails with an internal server
+ * error. The next cron then sees unchanged data (changed=false) and does
+ * nothing, so the site stays broken until the next manual commit.
+ *
+ * Recovery: when the latest Pages build for the current branch HEAD is
+ * "errored", request a rebuild via POST /pages/builds. That endpoint
+ * rebuilds the latest revision WITHOUT creating a git commit, so no
+ * unchanged-data commits and no extra data builds are produced.
+ *
+ * Bounds (GitHub documents a soft limit of ~10 Pages builds/hour):
+ * - Only acts when the latest build errored AND targets the current HEAD
+ *   (a newer push means its own build is pending/in flight — leave it).
+ * - Just-pushed ticks skip recovery (the push-triggered build is in flight).
+ * - Exponential backoff on consecutive same-commit failures: 10/20/40/60m.
+ * - Gives up after PAGES_MAX_REBUILDS consecutive failures and surfaces it
+ *   (sync-status lastError), so a human looks instead of burning builds.
+ * - Never throws: any API hiccup degrades to "unknown" and the normal
+ *   sync result stands. NOTE: requesting a build needs Pages:write on the
+ *   PAT (Contents read+write alone yields HTTP 403 here); until the owner
+ *   grants it, rebuilds report "forbidden" and recovery stays dormant.
+ * ------------------------------------------------------------------ */
+
+const PAGES_MAX_REBUILDS = 5;
+const PAGES_BASE_BACKOFF_MIN = 10;
+const PAGES_MAX_BACKOFF_MIN = 60;
+
+async function ghHeadSha(env) {
+  const { repo, branch } = repoVars(env);
+  const url = "https://api.github.com/repos/" + repo + "/commits/" + encodeURIComponent(branch) + "?per_page=1";
+  const resp = await fetch(url, { headers: ghHeaders(env) });
+  if (!resp.ok) throw new Error("GitHub HEAD read failed (HTTP " + resp.status + ").");
+  const data = await resp.json();
+  return data.sha || null;
+}
+
+async function ghPagesLatest(env) {
+  const { repo } = repoVars(env);
+  const resp = await fetch("https://api.github.com/repos/" + repo + "/pages/builds/latest", { headers: ghHeaders(env) });
+  if (resp.status === 404) return null; // Pages not enabled / no builds yet
+  if (!resp.ok) throw new Error("Pages builds read failed (HTTP " + resp.status + ").");
+  return resp.json();
+}
+
+async function ghPagesRecent(env, n) {
+  const { repo } = repoVars(env);
+  const resp = await fetch("https://api.github.com/repos/" + repo + "/pages/builds?per_page=" + n, { headers: ghHeaders(env) });
+  if (!resp.ok) throw new Error("Pages builds list failed (HTTP " + resp.status + ").");
+  const list = await resp.json();
+  return Array.isArray(list) ? list : [];
+}
+
+async function ghRequestPagesBuild(env) {
+  const { repo } = repoVars(env);
+  const resp = await fetch("https://api.github.com/repos/" + repo + "/pages/builds", {
+    method: "POST",
+    headers: ghHeaders(env),
+    body: JSON.stringify({}),
+  });
+  if (resp.status === 403 || resp.status === 404) {
+    return { ok: false, reason: "forbidden (PAT needs Pages: read+write)" };
+  }
+  if (!resp.ok) {
+    const t = await resp.text();
+    return { ok: false, reason: "HTTP " + resp.status + " " + t.slice(0, 80) };
+  }
+  return { ok: true };
+}
+
+function pagesBackoffMin(failures) {
+  return Math.min(PAGES_BASE_BACKOFF_MIN * Math.pow(2, Math.max(0, failures - 1)), PAGES_MAX_BACKOFF_MIN);
+}
+
+async function ensurePagesDeploy(env, justCommitted) {
+  try {
+    if (justCommitted) return { action: "skipped", detail: "fresh commit; push-triggered build in flight" };
+    const latest = await ghPagesLatest(env);
+    if (!latest) return { action: "unknown", detail: "no Pages build info" };
+    const status = latest.status;
+    if (status === "built") return { action: "none", status, updatedAt: latest.updated_at || null };
+    if (status === "queued" || status === "building") {
+      return { action: "none", status, updatedAt: latest.updated_at || null, detail: "build in flight" };
+    }
+    if (status !== "errored") return { action: "unknown", status, updatedAt: latest.updated_at || null };
+    // Latest build errored: only recover if it targeted the current HEAD.
+    let headSha = null;
+    try { headSha = await ghHeadSha(env); } catch (e) { /* fall through to commit-agnostic count */ }
+    if (headSha && latest.commit && latest.commit !== headSha) {
+      return { action: "none", status, updatedAt: latest.updated_at || null, detail: "newer commit pending" };
+    }
+    // Count consecutive errored builds for this commit (newest first).
+    let failures = 0;
+    try {
+      const recent = await ghPagesRecent(env, 10);
+      for (const b of recent) {
+        if (!b || b.status !== "errored") break;
+        if (headSha && b.commit && b.commit !== headSha) break;
+        failures++;
+      }
+    } catch (e) { failures = 1; } // list failed: fall back to single-failure backoff
+    if (failures < 1) failures = 1;
+    if (failures > PAGES_MAX_REBUILDS) {
+      return { action: "exhausted", status, updatedAt: latest.updated_at || null, failures };
+    }
+    const ts = latest.updated_at || latest.created_at;
+    const ageMin = ts ? (Date.now() - Date.parse(ts)) / 60000 : Infinity;
+    const waitMin = pagesBackoffMin(failures);
+    if (ageMin < waitMin) {
+      return { action: "waiting", status, updatedAt: latest.updated_at || null, failures, retryInMin: Math.ceil(waitMin - ageMin) };
+    }
+    const req = await ghRequestPagesBuild(env);
+    if (req.ok) return { action: "rebuilt", status, updatedAt: latest.updated_at || null, failures };
+    if (req.reason && req.reason.indexOf("forbidden") === 0) {
+      return { action: "forbidden", status, updatedAt: latest.updated_at || null, detail: req.reason };
+    }
+    return { action: "request-failed", status, updatedAt: latest.updated_at || null, detail: req.reason };
+  } catch (err) {
+    return { action: "unknown", detail: String((err && err.message) || err).slice(0, 120) };
+  }
+}
+
 /**
  * Split an existing data.js into { data, suffix }.
  * data.js holds two top-level assignments: window.LB_DATA = {...}; ...
@@ -689,13 +813,26 @@ async function handleSyncStatus(env) {
     const lb = splitLbFile(file.body).data;
     const iso = await ghLastCommitDate(env);
     const ageMinutes = iso ? Math.max(0, Math.round((Date.now() - Date.parse(iso)) / 60000)) : null;
+    const pages = await ensurePagesDeploy(env, false);
+    let lastError = null;
+    if (pages.action === "exhausted") {
+      lastError = "Pages deployment failed " + (pages.failures || PAGES_MAX_REBUILDS) +
+        "x for the current commit; manual rebuild needed (Cloudflare/Worker logs, then POST /repos/.../pages/builds).";
+    } else if (pages.action === "forbidden") {
+      lastError = "Pages rebuild not permitted: PAT needs Pages read+write (" + (pages.detail || "forbidden") + ").";
+    }
     return json({
       matches: Array.isArray(lb.matches) ? lb.matches.length : 0,
       players: Array.isArray(lb.players) ? lb.players.length : 0,
       ageMinutes,
       stale: ageMinutes === null ? true : ageMinutes > STALE_MINUTES,
-      lastError: null,
+      lastError,
       generated: lb.generated || null,
+      pagesDeploy: {
+        action: pages.action,
+        status: pages.status || null,
+        updatedAt: pages.updatedAt || null,
+      },
     });
   } catch (err) {
     return json({ error: String((err && err.message) || err).slice(0, 200) }, 500);
@@ -722,14 +859,20 @@ export default {
       }
       try {
         const r = await runSync(env);
+        const pages = await ensurePagesDeploy(env, r.changed);
+        let note = r.changed
+          ? r.matches + " matches / " + r.players + " players published."
+          : "Site already matched the sheet.";
+        if (pages.action === "rebuilt") note += " Pages redeploy requested.";
+        else if (pages.action === "exhausted") note += " WARNING: Pages deployment keeps failing; manual rebuild needed.";
+        else if (pages.action === "forbidden") note += " NOTE: Pages rebuild not permitted (PAT needs Pages read+write).";
         return json({
           ok: true,
           changed: r.changed,
           matches: r.matches,
           players: r.players,
-          note: r.changed
-            ? r.matches + " matches / " + r.players + " players published."
-            : "Site already matched the sheet.",
+          note,
+          pagesDeploy: pages.action,
         });
       } catch (err) {
         return json({ error: String((err && err.message) || err).slice(0, 200) }, 500);
@@ -741,7 +884,9 @@ export default {
   async scheduled(event, env, ctx) {
     try {
       const r = await runSync(env);
-      console.log("cron sync: changed=" + r.changed + " matches=" + r.matches + " players=" + r.players);
+      const pages = await ensurePagesDeploy(env, r.changed);
+      console.log("cron sync: changed=" + r.changed + " matches=" + r.matches + " players=" + r.players +
+        " pages=" + pages.action + (pages.status ? "(" + pages.status + ")" : ""));
     } catch (err) {
       console.log("cron sync failed: " + String((err && err.message) || err).slice(0, 200));
     }

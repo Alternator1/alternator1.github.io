@@ -44,7 +44,10 @@ script (`Kode.gs`) and the site (`app.js` footer/admin) expect.
 
 1. GitHub: fine-grained PAT (resource owner with access to the repo,
    Only select repositories -> `alternator1.github.io`,
-   Contents: Read and write). Keep it private.
+   Contents: Read and write (data.js sync) AND Pages: Read and write
+   (lets the Worker request a Pages rebuild when the latest deployment
+   errored; without Pages write, recovery reports "forbidden" and stays
+   dormant). Keep it private.
 2. Cloudflare dashboard -> Workers & Pages -> Create -> Create Worker ->
    name `tierstats-publish` -> Deploy -> Edit code -> paste
    `worker/src/index.js` -> Save and deploy.
