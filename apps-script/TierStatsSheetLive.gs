@@ -53,8 +53,6 @@ function onOpen() {
     .addItem('Update website now', 'updateWebsiteNow')
     .addItem('Check sync status', 'checkSyncStatus')
     .addItem('Setup check', 'setupCheck')
-    .addSeparator()
-    .addItem('Install website auto-sync', 'ttInstallWebsiteTrigger')
     .addToUi();
 }
 
@@ -854,9 +852,16 @@ function round1_(n) {
  *      Alternator1/alternator1.github.io (menu instantly, trigger debounced,
  *      Worker 5-minute cron as backstop).
  *   2. The Worker owns all data.js commits (single-writer rule).
- *   3. Secrets live ONLY in Project Settings -> Script Properties.
- * If the Worker cannot be reused, replace pokeWorkerSync_ with an approved
- * direct-push design — do not improvise one here.
+ *   3. Secrets live ONLY in Project Settings -> Script Properties. The only
+ *      value you ever set is WORKER_SECRET, and it MUST equal the secret
+ *      already configured on the Worker — never invent a new one. No
+ *      GITHUB_TOKEN is used anywhere: this layer never writes to GitHub
+ *      directly, so no GitHub PAT belongs in the Sheet.
+ * TRIGGER STATUS: do NOT run 'Update website now' and do NOT install the
+ * auto-sync trigger until Worker control/retarget is confirmed. 'Setup
+ * check' is read-only and safe to run at any time. If the Worker cannot
+ * be reused, replace pokeWorkerSync_ with an approved direct-push design
+ * — do not improvise one here.
  */
 
 const TT_PUB = {
@@ -910,19 +915,20 @@ function checkSyncStatus() {
   }
 }
 
-/** Menu action: verify Script Properties without pushing anything. */
+/** Menu action: verify Script Properties without pushing anything. Read-only. */
 function setupCheck() {
+  // Worker-first config: the ONLY value you must supply is WORKER_SECRET,
+  // and it must equal the secret already configured on the Worker. Set it
+  // only once Worker reuse/retarget is confirmed. No GITHUB_TOKEN is used
+  // anywhere in this layer.
   const missing = [];
-  ['GITHUB_REPO', 'GITHUB_BRANCH', 'GITHUB_TOKEN', 'WORKER_SYNC_URL', 'WORKER_SECRET']
-    .forEach(function (k) { if (!ttProps_().getProperty(k) && !TT_PUB[k]) missing.push(k); });
-  // GITHUB_TOKEN has no default — it MUST be set by the owner if direct
-  // GitHub writes are ever enabled. The Worker path does not need it.
-  if (!ttProps_().getProperty('GITHUB_TOKEN')) missing.push('GITHUB_TOKEN (only needed for direct GitHub writes)');
+  if (!ttProps_().getProperty('WORKER_SECRET')) {
+    missing.push('WORKER_SECRET (must match the Worker secret — set only after Worker reuse is confirmed)');
+  }
   const msg = missing.length
-    ? 'Missing Script Properties:\n- ' + missing.join('\n- ') + '\n\nSee the repo apps-script/SETUP.md.'
-    : 'Script Properties look complete for repo ' + ttPubCfg_('GITHUB_REPO') +
-      ' (branch ' + ttPubCfg_('GITHUB_BRANCH') + ').\nSheet recalculation is automatic; ' +
-      'this layer only triggers the website update.';
+    ? 'Missing Script Properties:\n- ' + missing.join('\n- ') + '\n\nWebsite sync stays dormant until this is set; leaderboard recalculation is unaffected.'
+    : 'Script Properties look complete.\nRepo: ' + ttPubCfg_('GITHUB_REPO') +
+      ' (branch ' + ttPubCfg_('GITHUB_BRANCH') + ').\nDo NOT install the auto-sync trigger or run Update website now until Worker control is confirmed.';
   SpreadsheetApp.getUi().alert('TierStats setup check\n\n' + msg);
   return { ok: missing.length === 0, missing: missing };
 }
@@ -960,10 +966,11 @@ function pokeWorkerSync_() {
 }
 
 /**
- * Installable onChange entry point for website auto-sync. Install via the
- * 'TierStats website -> Install website auto-sync' menu item. Debounced:
- * at most one Worker poke per 2 minutes. Rating recalculation is owned by
- * ttRankingOnEdit and is never triggered from here.
+ * Installable onChange entry point for website auto-sync. GATED: install by
+ * running ttInstallWebsiteTrigger manually ONLY after Worker control and
+ * retarget are confirmed. Debounced: at most one Worker poke per 2 minutes.
+ * Rating recalculation is owned by ttRankingOnEdit and is never triggered
+ * from here.
  */
 function ttWebsiteOnChange(e) {
   let name = '';
@@ -985,8 +992,9 @@ function ttWebsiteOnChange(e) {
 }
 
 /**
- * Run this ONCE to install website auto-sync. Safe to run again: it removes
- * only its own old trigger first. Does not touch the ranking trigger.
+ * GATED: run this ONCE to install website auto-sync, but ONLY after Worker
+ * control and retarget are confirmed. Safe to run again: it removes only
+ * its own old trigger first. Does not touch the ranking trigger.
  */
 function ttInstallWebsiteTrigger() {
   const ss = SpreadsheetApp.getActive();
