@@ -1,0 +1,19 @@
+# tierstats-publish Worker (replacement, 2026-11-09).
+# Primary deploy path is the Cloudflare dashboard (no Node needed):
+# paste worker/src/index.js as the Worker code, then mirror the [vars]
+# and secrets below. This file exists for wrangler users and as config record.
+
+name = "tierstats-publish"
+main = "src/index.js"
+compatibility_date = "2026-10-15"
+
+[triggers]
+crons = ["*/5 * * * *"]
+
+[vars]
+SHEET_ID = "1G7JuZwgdGl27fulGdpdkUz3PTYMC1LQodymjSvtmXL4"
+GITHUB_REPO = "Alternator1/alternator1.github.io"
+GITHUB_BRANCH = "main"
+# Secrets (dashboard: Settings -> Variables -> Secret, or `wrangler secret put`):
+#   GITHUB_TOKEN  fine-grained PAT, Contents read+write on the repo only
+#   WORKER_SECRET admin/sync password (must match the Sheet's WORKER_SECRET)

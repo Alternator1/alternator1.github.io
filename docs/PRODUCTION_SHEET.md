@@ -26,10 +26,11 @@
 - Data Issues: contains OWNER NOTES (badge spec, flagged match rows),
   not engine output — back these up before the first recalc wipes the tab.
 
-## Known non-blocker
+## Correction (2026-11-09, string-table analysis bug fixed)
 
-Settings column A holds descriptive text/server notes instead of the key
-names the script reads (only R4 'Seed Glicko midpoint' matches), so 15 of
-16 settings are currently defaults-driven (values are identical, results
-are unaffected — proven by the exact Leaderboard reproduction). Relabel
-column A to the engine key names to make settings live-editable.
+An earlier revision of this note claimed Settings column A did not match
+the engine key names. That was wrong — caused by an embedded newline in
+the shared-string table shifting the analysis. Re-verified with a correct
+parse: column A holds EXACTLY the 16 engine key names in order
+('Seed Glicko midpoint' … 'Auto recalculate'), values match, and the
+Settings tab is fully live. No relabeling needed.
