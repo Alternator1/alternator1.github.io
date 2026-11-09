@@ -1,6 +1,7 @@
 # 1v1 Leaderboard — TierStats
 
-The definitive Tank Trouble 1v1 rankings — Dynamic Glicko-2 ratings, full match
+
+The definitive Tank Trouble 1v1 rankings — Dynamic Glicko ratings, full match
 archive, head-to-head dossiers, provisional roster and analytics.
 
 **Live site:** https://alternator1.github.io/ (served from `Alternator1/alternator1.github.io`)
