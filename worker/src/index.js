@@ -101,12 +101,32 @@ function todayISO() {
  * Google Sheet reading (gviz JSON, no auth needed beyond link sharing)
  * ------------------------------------------------------------------ */
 
+// Deterministic per-tab ranges: each range starts exactly at that tab's real
+// header row (title/instruction rows above are excluded). Requested with
+// headers=1 so gviz puts the header text into table.cols[].label (labels are
+// never type-coerced, unlike header cells inside numeric columns), and the
+// Worker prepends those labels as a synthetic header row for the parsers.
+const SHEET_RANGES = {
+  Matches: "A3:L",
+  Aliases: "A3:C",
+  Seeds: "A3:D",
+  Settings: "A3:C",
+  Leaderboard: "A5:L",
+  "All Players": "A5:L",
+  Provisional: "A5:H",
+  Inactive: "A5:I",
+};
+
 async function fetchSheetGrid(sheetId, sheetName) {
+  const range = SHEET_RANGES[sheetName];
+  if (!range) throw new Error("No range configured for Sheet tab '" + sheetName + "'.");
   const url =
     "https://docs.google.com/spreadsheets/d/" +
     encodeURIComponent(sheetId) +
-    "/gviz/tq?tqx=out:json&headers=0&sheet=" +
-    encodeURIComponent(sheetName); // headers=0: keep every row raw; header detection is done by findHeaderRow()
+    "/gviz/tq?tqx=out:json&headers=1&sheet=" +
+    encodeURIComponent(sheetName) +
+    "&range=" +
+    encodeURIComponent(range);
   const resp = await fetch(url, { headers: { Accept: "application/json" } });
   const text = await resp.text();
   if (!resp.ok) throw new Error("Sheet tab '" + sheetName + "' unreachable (HTTP " + resp.status + ").");
@@ -125,8 +145,14 @@ async function fetchSheetGrid(sheetId, sheetName) {
     throw new Error("Sheet tab '" + sheetName + "' returned unreadable data.");
   }
   const table = (payload && payload.table) || {};
+  const cols = table.cols || [];
+  const headerRow = cols.map((c) => {
+    const label = c && c.label != null ? String(c.label).trim() : "";
+    return { v: label === "" ? null : label, f: "" };
+  });
   const rows = table.rows || [];
-  return rows.map((r) => (r.c || []).map((c) => ({ v: c ? c.v : null, f: c && c.f != null ? String(c.f) : "" })));
+  const grid = rows.map((r) => (r.c || []).map((c) => ({ v: c ? c.v : null, f: c && c.f != null ? String(c.f) : "" })));
+  return [headerRow].concat(grid); // synthetic header row at index 0; data follows
 }
 
 function cellNum(cell) {
