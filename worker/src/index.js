@@ -854,6 +854,20 @@ function verifyKv(env) {
   return (env && env.VERIFY_KV) || null;
 }
 
+// Bodyless 204 for CORS preflights: a 204 MUST NOT carry a body, and the
+// Workers runtime rejects constructing one with a JSON payload (HTTP 500),
+// which fails the browser preflight and blocks every verify POST.
+function verifyPreflight() {
+  return new Response(null, {
+    status: 204,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type",
+    },
+  });
+}
+
 function randHex(n) {
   const b = new Uint8Array(n);
   crypto.getRandomValues(b);
@@ -1112,10 +1126,10 @@ export default {
       return handleSyncStatus(env);
     }
     if (url.pathname === "/availability/tank" && request.method === "OPTIONS") {
-      return verifyCors({}, 204);
+      return verifyPreflight();
     }
     if (request.method === "OPTIONS" && url.pathname.indexOf("/availability/verify/") === 0) {
-      return verifyCors({}, 204);
+      return verifyPreflight();
     }
     if (url.pathname === "/availability/tank" && request.method === "GET") {
       return handleTank(env, url);
