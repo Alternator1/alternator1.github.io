@@ -470,10 +470,52 @@ async function ghLastCommitDate(env) {
   return iso || null;
 }
 
-function parseLbData(body) {
-  const m = /window\.LB_DATA\s*=\s*(\{[\s\S]*\})\s*;?\s*$/.exec(body);
-  if (!m) throw new Error("Existing data.js is not a window.LB_DATA file.");
-  return JSON.parse(m[1]);
+/**
+ * Split an existing data.js into { data, suffix }.
+ * data.js holds two top-level assignments: window.LB_DATA = {...}; ...
+ * window.LB_TANKS = {...};. Only the LB_DATA object is parsed (brace-matched
+ * from its opening brace with string/escape awareness, so the later LB_TANKS
+ * block is never swallowed). suffix is everything after the LB_DATA
+ * terminating ";" and is re-appended byte-for-byte, so the LB_TANKS block
+ * and its comments survive every sync unchanged.
+ */
+function splitLbFile(body) {
+  const key = "window.LB_DATA";
+  const i = body.indexOf(key);
+  if (i < 0) throw new Error("Existing data.js is not a window.LB_DATA file.");
+  const eq = body.indexOf("=", i + key.length);
+  const start = eq < 0 ? -1 : body.indexOf("{", eq);
+  if (start < 0) throw new Error("Existing data.js window.LB_DATA assignment has no JSON object.");
+  let depth = 0;
+  let inStr = false;
+  let esc = false;
+  let end = -1;
+  for (let j = start; j < body.length; j++) {
+    const ch = body[j];
+    if (inStr) {
+      if (esc) esc = false;
+      else if (ch === "\\") esc = true;
+      else if (ch === '"') inStr = false;
+    } else if (ch === '"') {
+      inStr = true;
+    } else if (ch === "{") {
+      depth++;
+    } else if (ch === "}") {
+      depth--;
+      if (depth === 0) { end = j; break; }
+    }
+  }
+  if (end < 0) throw new Error("Existing data.js window.LB_DATA assignment is unterminated.");
+  let k = end + 1;
+  while (k < body.length && (body[k] === " " || body[k] === "\t" || body[k] === "\r" || body[k] === "\n")) k++;
+  if (body[k] !== ";") throw new Error("Existing data.js window.LB_DATA assignment is not terminated with ';'.");
+  let data;
+  try {
+    data = JSON.parse(body.slice(start, end + 1));
+  } catch (e) {
+    throw new Error("Existing data.js window.LB_DATA is not valid JSON.");
+  }
+  return { data: data, suffix: body.slice(k + 1) };
 }
 
 /* ------------------------------------------------------------------ *
@@ -568,7 +610,8 @@ async function runSync(env) {
 
   // Previous-publish snapshots: prev = old current, cur = new ratings.
   const oldFile = await ghGetFile(env);
-  const old = oldFile ? parseLbData(oldFile.body) : null;
+  const oldSplit = oldFile ? splitLbFile(oldFile.body) : null;
+  const old = oldSplit ? oldSplit.data : null;
   const oldCur = (old && old.curRatings) || {};
   if (!Object.keys(oldCur).length && old && Array.isArray(old.players)) {
     for (const p of old.players) {
@@ -619,7 +662,8 @@ async function runSync(env) {
 
   const body =
     "// 1v1 Leaderboard data - generated from Google Sheet (" + today + ")\n" +
-    "window.LB_DATA = " + JSON.stringify(next) + ";\n";
+    "window.LB_DATA = " + JSON.stringify(next) + ";" +
+    (oldSplit ? oldSplit.suffix : "\n");
 
   if (oldFile && oldFile.body === body) {
     return { changed: false, matches: matches.length, players: players.length };
@@ -642,7 +686,7 @@ async function handleSyncStatus(env) {
   try {
     const file = await ghGetFile(env);
     if (!file) return json({ error: "data.js has not been published yet." }, 404);
-    const lb = parseLbData(file.body);
+    const lb = splitLbFile(file.body).data;
     const iso = await ghLastCommitDate(env);
     const ageMinutes = iso ? Math.max(0, Math.round((Date.now() - Date.parse(iso)) / 60000)) : null;
     return json({
