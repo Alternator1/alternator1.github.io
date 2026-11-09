@@ -1,6 +1,6 @@
 # TierStats Sheet → GitHub sync — setup (new repo)
 
-Retargets the live sync to **`Alternator1/tierstats.github.io`** without
+Retargets the live sync to **`Alternator1/alternator1.github.io`** without
 hard-coding any credential. The Google Sheet stays the authoritative data
 source with automatic recalculation; this script only triggers the website
 update.
@@ -21,7 +21,7 @@ update.
 1. GitHub → Settings → Developer settings → Personal access tokens →
    **Fine-grained tokens** → Generate new token.
 2. Resource owner: `Alternator1`; repository access: **Only select
-   repositories** → `tierstats.github.io`; permissions → **Contents:
+   repositories** → `alternator1.github.io`; permissions → **Contents:
    Read and write**. No other scopes.
 3. Copy the token once. You will paste it into Script Properties below —
    never into chat, email, or this repo.
@@ -38,7 +38,7 @@ Project Settings (gear) → Script Properties → add:
 
 | Key | Value |
 |---|---|
-| `GITHUB_REPO` | `Alternator1/tierstats.github.io` |
+| `GITHUB_REPO` | `Alternator1/alternator1.github.io` |
 | `GITHUB_BRANCH` | `main` |
 | `GITHUB_TOKEN` | the PAT from step 1 |
 | `WORKER_SYNC_URL` | `https://tierstats-publish.tierstats.workers.dev/sync` |
@@ -57,7 +57,7 @@ poke per 2 minutes; the Worker's 5-min cron covers the rest).
 ## 5. Re-point the Worker at the new repo
 
 In the Cloudflare Worker (`tierstats-publish`) configuration, set the repo to
-`Alternator1/tierstats.github.io` (env var / wrangler config + the GitHub
+`Alternator1/alternator1.github.io` (env var / wrangler config + the GitHub
 credentials it uses — a repo-scoped token or GitHub App installation on the
 new repo). Verify with the site's admin console: **Sync from sheet now**,
 then check `#/admin` sync-health (`/sync-status`: last publish age, match and
@@ -69,7 +69,7 @@ player counts).
 2. Sheet: run **TierStats → Check sync status** → last publish "just now".
 3. Make a trivial sheet edit → within ~2 min the trigger pokes `/sync`;
    within ~5 min the cron would anyway.
-4. Confirm the commit landed in `Alternator1/tierstats.github.io` (`data.js`
+4. Confirm the commit landed in `Alternator1/alternator1.github.io` (`data.js`
    `generated` date bumped) and the live site shows it after Pages redeploys
    (note: `data.js` loads with `?t=` per request, so no stale cache).
 

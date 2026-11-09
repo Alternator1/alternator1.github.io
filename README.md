@@ -3,7 +3,7 @@
 The definitive Tank Trouble 1v1 rankings — Dynamic Glicko-2 ratings, full match
 archive, head-to-head dossiers, provisional roster and analytics.
 
-**Live site:** https://tierstats.github.io/ (served from `Alternator1/tierstats.github.io`)
+**Live site:** https://alternator1.github.io/ (served from `Alternator1/alternator1.github.io`)
 
 - Owned & run by **Alternator** & **interstellar**
 - Every rating is computed from the recorded match history — no manual rankings
@@ -53,7 +53,7 @@ Live sync chain (single writer — the Worker owns all `data.js` commits):
    ("Update website" menu, plus an on-change trigger), **and** a 5-minute
    Cloudflare cron on the Worker catches anything else.
 3. The Worker regenerates `data.js` (and any generated site data) and commits
-   to `Alternator1/tierstats.github.io`.
+   to `Alternator1/alternator1.github.io`.
 4. GitHub Pages redeploys the static site.
 
 Setup: [apps-script/SETUP.md](apps-script/SETUP.md) · template: [apps-script/Code.gs](apps-script/Code.gs).
