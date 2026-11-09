@@ -13,7 +13,7 @@
  *   GET  /                diagnostics text
  *   GET  /sync-status     { matches, players, ageMinutes, stale, lastError, generated }
  *   POST /sync            { password } -> { ok, changed, matches, players } | { error }
- *   cron */5 * * * *      same as POST /sync (trusted, no password)
+ *   cron every 5 minutes      same as POST /sync (trusted, no password)
  *
  * Env (set in Cloudflare dashboard, never in code):
  *   SHEET_ID      spreadsheet id (var)
