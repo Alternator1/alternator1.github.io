@@ -105,8 +105,8 @@ async function fetchSheetGrid(sheetId, sheetName) {
   const url =
     "https://docs.google.com/spreadsheets/d/" +
     encodeURIComponent(sheetId) +
-    "/gviz/tq?tqx=out:json&sheet=" +
-    encodeURIComponent(sheetName);
+    "/gviz/tq?tqx=out:json&headers=0&sheet=" +
+    encodeURIComponent(sheetName); // headers=0: keep every row raw; header detection is done by findHeaderRow()
   const resp = await fetch(url, { headers: { Accept: "application/json" } });
   const text = await resp.text();
   if (!resp.ok) throw new Error("Sheet tab '" + sheetName + "' unreachable (HTTP " + resp.status + ").");
