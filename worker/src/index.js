@@ -532,10 +532,10 @@ async function runSync(env) {
   for (const p of players) {
     const inProvTab = provNames.has(p.name);
     const failsMin = (matchCount[p.name] || 0) < minM || oppN(p.name) < minO;
-    if (inProvTab || failsMin) p.provisional = true;
+    if (inProvTab || failsMin) Object.assign(p, { provisional: true });
     const inTab = inactiveSet.has(p.name.toLowerCase());
-    if (inTab) p.inactive = pastThreshold(p);
-    else if (pastThreshold(p)) p.inactive = true;
+    if (inTab) Object.assign(p, { inactive: pastThreshold(p) });
+    else if (pastThreshold(p)) Object.assign(p, { inactive: true });
   }
 
   const histories = buildHistories(matches);
