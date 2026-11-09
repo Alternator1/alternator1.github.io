@@ -14,6 +14,14 @@ crons = ["*/5 * * * *"]
 SHEET_ID = "1G7JuZwgdGl27fulGdpdkUz3PTYMC1LQodymjSvtmXL4"
 GITHUB_REPO = "Alternator1/alternator1.github.io"
 GITHUB_BRANCH = "main"
+# Verify (KV-backed challenge state for /availability/verify/*).
+# Dashboard: Workers > tierstats-publish > Settings > Bindings > Add >
+#   KV namespace > Variable name VERIFY_KV (create namespace
+#   "tierstats-verify" first if none exists). Then, for wrangler deploys,
+#   paste its ID below:
+# [[kv_namespaces]]
+# binding = "VERIFY_KV"
+# id = "PASTE_KV_NAMESPACE_ID"
 # Secrets (dashboard: Settings -> Variables -> Secret, or `wrangler secret put`):
 #   GITHUB_TOKEN  fine-grained PAT on the repo: Contents read+write (data.js
 #                 sync) AND Pages read+write (rebuilds a failed Pages deploy

@@ -802,6 +802,266 @@ async function runSync(env) {
   return { changed: true, matches: matches.length, players: players.length };
 }
 
+// --------------------------------------------------------------------
+// Verify (availability identity) - KV-backed challenges, live oracle.
+//
+// The game exposes player tank state over plain HTTPS JSON-RPC:
+//   POST https://tanktrouble.com/ajax/  {jsonrpc, method:
+//   "tanktrouble.getPlayerDetailsByUsername", params:[name]}
+// No auth needed. Unknown names yield result:false ("No such player").
+// A challenge asks the player to change one accessory on their exact
+// account; /check polls the oracle until the change appears. The client
+// is never trusted: only the oracle decides pass/fail.
+//
+// Frontend contract (app.js, unchanged):
+//   GET  /availability/tank?name=       -> {ok, tank} | {ok:false}
+//   POST /availability/verify/start {name}
+//     -> {ok, id, player, main, tank, pick, pair, acc, mode, slot,
+//             expires, verifiedAlready}
+//   POST /availability/verify/check {id}
+//     -> {ok, verified, token?, player?, met?, tank?} | {ok:false,
+//             error:"expired"}
+//   POST /availability/verify/claim {name, token}
+//     -> {ok, player} | {ok:false, error:"that code is not right"}
+// Error strings match the site's ns() mapper: "expired", "that code is
+// not right", "too many verification attempts for this name",
+// "no in-game tank found for this name", "could not reach the game
+// profile". Requires a KV binding named VERIFY_KV (challenge state,
+// claim codes, throttle counters). Without it every verify route answers
+// 503 and the normal publish pipeline is unaffected.
+// --------------------------------------------------------------------
+
+const VERIFY_CHALLENGE_MS = 15 * 60 * 1000;
+const VERIFY_CHAL_KV_S = 20 * 60;
+const VERIFY_CODE_S = 90 * 24 * 3600;
+const VERIFY_NAME_MAX = 10;
+const VERIFY_IP_MAX = 120;
+const VERIFY_ACC_SLOTS = [
+  "turretAccessory", "barrelAccessory", "frontAccessory",
+  "backAccessory", "treadAccessory", "backgroundAccessory",
+];
+const VERIFY_CODE_ALPHABET = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
+
+function verifyCors(data, status) {
+  const r = json(data, status || 200);
+  r.headers.set("Access-Control-Allow-Origin", "*");
+  r.headers.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  r.headers.set("Access-Control-Allow-Headers", "Content-Type");
+  return r;
+}
+
+function verifyKv(env) {
+  return (env && env.VERIFY_KV) || null;
+}
+
+function randHex(n) {
+  const b = new Uint8Array(n);
+  crypto.getRandomValues(b);
+  let s = "";
+  for (let i = 0; i < b.length; i++) s += b[i].toString(16).padStart(2, "0");
+  return s;
+}
+
+function randCode() {
+  const b = new Uint8Array(8);
+  crypto.getRandomValues(b);
+  let s = "";
+  for (let i = 0; i < b.length; i++) s += VERIFY_CODE_ALPHABET[b[i] % VERIFY_CODE_ALPHABET.length];
+  return s;
+}
+
+function cleanName(v) {
+  const s = String(v == null ? "" : v).trim().replace(/[\u0000-\u001F\u007F]+/g, "");
+  if (!s || s.length > 40) return "";
+  return s;
+}
+
+async function kvBump(kv, key, ttlSeconds, max) {
+  const cur = parseInt((await kv.get(key)) || "0", 10) || 0;
+  if (cur >= max) return false;
+  // Fixed window: first hit sets the TTL, later hits reuse the same window.
+  if (cur === 0) await kv.put(key, "1", { expirationTtl: ttlSeconds });
+  else await kv.put(key, String(cur + 1));
+  return true;
+}
+
+async function ttLookup(name) {
+  let resp;
+  try {
+    resp = await fetch("https://tanktrouble.com/ajax/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ jsonrpc: "2.0", method: "tanktrouble.getPlayerDetailsByUsername", id: 1, params: [name] }),
+    });
+  } catch (e) {
+    return { ok: false, reason: "oracle" };
+  }
+  let body = null;
+  try { body = await resp.json(); } catch (e) { /* non-JSON */ }
+  const res = body && body.result;
+  if (!resp.ok || !body || body.jsonrpc !== "2.0" || !res) return { ok: false, reason: "oracle" };
+  if (!res.result || !res.data) return { ok: false, reason: "unknown" };
+  return { ok: true, username: String(res.data.username || name), data: res.data };
+}
+
+function tankSubset(d) {
+  const pick = (k) => (d && d[k] !== undefined ? d[k] : (k.slice(-6) === "Colour" ? null : "0"));
+  const acc = (k) => {
+    const v = d ? d[k] : undefined;
+    return v === undefined || v === null || v === "" ? "0" : String(v);
+  };
+  return {
+    turretColour: pick("turretColour"),
+    treadColour: pick("treadColour"),
+    baseColour: pick("baseColour"),
+    turretAccessory: acc("turretAccessory"),
+    barrelAccessory: acc("barrelAccessory"),
+    frontAccessory: acc("frontAccessory"),
+    backAccessory: acc("backAccessory"),
+  };
+}
+
+function tankFingerprint(t) {
+  return JSON.stringify([
+    t.turretColour, t.treadColour, t.baseColour, t.turretAccessory,
+    t.barrelAccessory, t.frontAccessory, t.backAccessory,
+  ]);
+}
+
+function accVal(t, slot) {
+  const v = t ? t[slot] : undefined;
+  return v === undefined || v === null || v === "" ? "0" : String(v);
+}
+
+async function verifyHasLiveCode(kv, canonical) {
+  try {
+    const list = await kv.list({ prefix: "vcode:", limit: 50 });
+    for (const k of list.keys || []) {
+      const v = await kv.get(k.name, "json");
+      if (v && String(v.player || "").toLowerCase() === canonical.toLowerCase()) return true;
+    }
+  } catch (e) { /* treat as none */ }
+  return false;
+}
+
+async function handleTank(env, url) {
+  const kv = verifyKv(env);
+  if (!kv) return verifyCors({ ok: false, error: "verification backend not configured" }, 503);
+  const name = cleanName(url.searchParams.get("name"));
+  if (!name) return verifyCors({ ok: false, error: "no in-game tank found for this name" });
+  const r = await ttLookup(name);
+  if (!r.ok) {
+    return verifyCors({ ok: false, error: r.reason === "unknown" ? "no in-game tank found for this name" : "could not reach the game profile" });
+  }
+  return verifyCors({ ok: true, player: r.username, tank: tankSubset(r.data) });
+}
+
+async function handleVerifyStart(env, request) {
+  const kv = verifyKv(env);
+  if (!kv) return verifyCors({ ok: false, error: "verification backend not configured" }, 503);
+  let body = {};
+  try { body = await request.json(); } catch (e) { /* empty/invalid body */ }
+  const name = cleanName(body && body.name);
+  if (!name) return verifyCors({ ok: false, error: "no in-game tank found for this name" });
+  const ip = request.headers.get("CF-Connecting-IP") || "unknown";
+  if (!(await kvBump(kv, "vrl:ip:" + ip, 60, VERIFY_IP_MAX))) {
+    return verifyCors({ ok: false, error: "too many attempts - slow down" }, 429);
+  }
+  const r = await ttLookup(name);
+  if (!r.ok) {
+    return verifyCors({ ok: false, error: r.reason === "unknown" ? "no in-game tank found for this name" : "could not reach the game profile" });
+  }
+  const canonical = r.username;
+  if (!(await kvBump(kv, "vrl:name:" + canonical.toLowerCase(), 3600, VERIFY_NAME_MAX))) {
+    return verifyCors({ ok: false, error: "too many verification attempts for this name" }, 429);
+  }
+  const tank = tankSubset(r.data);
+  let kind = "any";
+  let slot = "";
+  let original = "";
+  let snapshot = "";
+  const equipped = VERIFY_ACC_SLOTS.filter((s) => accVal(tank, s) !== "0");
+  if (equipped.length) {
+    // Take-off-or-swap challenge on a slot the account actually uses.
+    kind = "slot";
+    slot = equipped[Math.floor(Math.random() * equipped.length)];
+    original = accVal(tank, slot);
+  } else {
+    snapshot = tankFingerprint(tank);
+  }
+  const id = randHex(16);
+  const expires = Date.now() + VERIFY_CHALLENGE_MS;
+  await kv.put("vchal:" + id, JSON.stringify({ player: canonical, kind, slot, original, snapshot, expires }), { expirationTtl: VERIFY_CHAL_KV_S });
+  const verifiedAlready = await verifyHasLiveCode(kv, canonical);
+  if (kind === "slot") {
+    return verifyCors({
+      ok: true, id, player: canonical, main: "", tank,
+      pick: null, pair: [], acc: null, mode: "slot", slot,
+      expires, verifiedAlready,
+    });
+  }
+  return verifyCors({
+    ok: true, id, player: canonical, main: "", tank,
+    pick: null, pair: [], acc: null, mode: "any", slot: "",
+    expires, verifiedAlready,
+  });
+}
+
+async function handleVerifyCheck(env, request) {
+  const kv = verifyKv(env);
+  if (!kv) return verifyCors({ ok: false, error: "verification backend not configured" }, 503);
+  let body = {};
+  try { body = await request.json(); } catch (e) { /* empty/invalid body */ }
+  const id = String((body && body.id) || "");
+  if (!/^[0-9a-f]{32}$/.test(id)) return verifyCors({ ok: false, error: "expired" });
+  const raw = await kv.get("vchal:" + id);
+  if (!raw) return verifyCors({ ok: false, error: "expired" });
+  let chal = null;
+  try { chal = JSON.parse(raw); } catch (e) { /* corrupt */ }
+  if (!chal || !chal.player || !chal.expires) return verifyCors({ ok: false, error: "expired" });
+  if (Date.now() > chal.expires) {
+    await kv.delete("vchal:" + id);
+    return verifyCors({ ok: false, error: "expired" });
+  }
+  const ip = request.headers.get("CF-Connecting-IP") || "unknown";
+  if (!(await kvBump(kv, "vrl:ip:" + ip, 60, VERIFY_IP_MAX))) {
+    return verifyCors({ ok: false, error: "too many attempts - slow down" }, 429);
+  }
+  const r = await ttLookup(chal.player);
+  if (!r.ok) {
+    return verifyCors({ ok: false, error: "could not reach the game profile" });
+  }
+  const tank = tankSubset(r.data);
+  let met = false;
+  if (chal.kind === "slot" && chal.slot) {
+    met = accVal(tank, chal.slot) !== String(chal.original);
+  } else {
+    met = tankFingerprint(tank) !== String(chal.snapshot);
+  }
+  if (!met) {
+    return verifyCors({ ok: true, verified: false, met: { acc: false }, tank });
+  }
+  const token = randCode();
+  await kv.put("vcode:" + token, JSON.stringify({ player: r.username }), { expirationTtl: VERIFY_CODE_S });
+  await kv.delete("vchal:" + id);
+  return verifyCors({ ok: true, verified: true, token, player: r.username });
+}
+
+async function handleVerifyClaim(env, request) {
+  const kv = verifyKv(env);
+  if (!kv) return verifyCors({ ok: false, error: "verification backend not configured" }, 503);
+  let body = {};
+  try { body = await request.json(); } catch (e) { /* empty/invalid body */ }
+  const name = cleanName(body && body.name);
+  const token = String((body && body.token) || "").toUpperCase().replace(/[^A-Z0-9]/g, "");
+  if (!name || !token) return verifyCors({ ok: false, error: "that code is not right" });
+  const v = await kv.get("vcode:" + token, "json");
+  if (!v || !v.player || String(v.player).toLowerCase() !== name.toLowerCase()) {
+    return verifyCors({ ok: false, error: "that code is not right" });
+  }
+  return verifyCors({ ok: true, player: v.player });
+}
+
 /* ------------------------------------------------------------------ *
  * Router
  * ------------------------------------------------------------------ */
@@ -850,6 +1110,24 @@ export default {
     }
     if (path === "/sync-status" && request.method === "GET") {
       return handleSyncStatus(env);
+    }
+    if (url.pathname === "/availability/tank" && request.method === "OPTIONS") {
+      return verifyCors({}, 204);
+    }
+    if (request.method === "OPTIONS" && url.pathname.indexOf("/availability/verify/") === 0) {
+      return verifyCors({}, 204);
+    }
+    if (url.pathname === "/availability/tank" && request.method === "GET") {
+      return handleTank(env, url);
+    }
+    if (url.pathname === "/availability/verify/start" && request.method === "POST") {
+      return handleVerifyStart(env, request);
+    }
+    if (url.pathname === "/availability/verify/check" && request.method === "POST") {
+      return handleVerifyCheck(env, request);
+    }
+    if (url.pathname === "/availability/verify/claim" && request.method === "POST") {
+      return handleVerifyClaim(env, request);
     }
     if (path === "/sync" && request.method === "POST") {
       let body = {};
