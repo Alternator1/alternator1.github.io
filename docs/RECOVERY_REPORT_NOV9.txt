@@ -1,0 +1,45 @@
+TierStats recovery report — 2026-11-09
+
+RECOVERED FROM BROWSER CACHE BUILD 20261109114500
+- index.html
+- app.js
+- styles.css
+- cards.js / cards.css
+- rankmove.js / rankmove.css
+- i18n.js
+- tanks.js
+- tankrender.js
+- tourneys.js
+- data.js
+- log.js
+- manifest.webmanifest
+- art icons / brand tank / paint assets / GB, IN, NL and RU flags
+- tankart/manifest.json
+- 108 cached tank-art AVIF files
+- fixed sw.js from the later cache bug fix in this chat
+- .nojekyll
+
+DATA SNAPSHOT
+- generated: 2026-11-09
+- qualified players: 48
+- total players: 116
+- matches: 504
+- tank profiles: 144
+
+STILL NOT FULLY RECOVERED
+1. Full tank-art library: manifest references 830 image files; 722 were not present in this browser cache.
+   For the 144 tank profiles in this data snapshot, 73 distinct 400px tank assets referenced by current profiles are still missing.
+   See MISSING_CURRENT_TANK_ASSETS.txt and MISSING_FULL_TANKART_LIBRARY.txt.
+2. Country flag SVGs: Chrome + Edge recovered GB, IN, NL and RU. tourneys.js can request additional ISO country flags dynamically, so the full flag set is still incomplete.
+3. Original static SEO route copies (analytics/, cards/, compare/, faq/, find/, matches/, method/, player/, roster/, rules/, share/) were not in this cache.
+   The app itself is a single-page app and the recovered index contains all page sections/routing logic. A recovered 404.html copy of index.html was added for functional fallback, but it is not the original SEO route-file set.
+4. GitHub workflows/backend secrets are intentionally not included in this recovery package.
+
+IMPORTANT
+Do not overwrite or delete your browser cache yet. Another browser/profile/computer that visited TierStats may contain more tank-art and flag assets and can be exported with the same cache-recovery script.
+
+EDGE CACHE MERGE
+- Edge cache build recovered: 20261108123425
+- Edge contained the same 108 tank-art AVIF files as Chrome (no additional tank parts).
+- Added 3 new country flags from Edge: in.svg, nl.svg, ru.svg.
+- Edge also cached Google font files, but those are not required because the site already loads fonts externally.
