@@ -12,7 +12,7 @@ crons = ["*/5 * * * *"]
 
 [vars]
 SHEET_ID = "1G7JuZwgdGl27fulGdpdkUz3PTYMC1LQodymjSvtmXL4"
-GITHUB_REPO = "Alternator1/alternator1.github.io"
+GITHUB_REPO = "Stats4Tanks/stats4tanks.github.io"
 GITHUB_BRANCH = "main"
 # Verify (KV-backed challenge state for /availability/verify/*).
 # Dashboard: Workers > tierstats-publish > Settings > Bindings > Add >

@@ -1,7 +1,7 @@
 /**
  * TierStats — Google Sheet → GitHub live sync (retargeted 2026-11-09).
  *
- * Target repo: Alternator1/alternator1.github.io (branch: main).
+ * Target repo: Stats4Tanks/stats4tanks.github.io (branch: main).
  * Chain: Sheet (auto-recalc, authoritative) → this script → tierstats-publish
  * Worker /sync → Worker regenerates data.js + commits to GitHub → Pages deploy.
  * A 5-minute Cloudflare cron on the Worker covers anything the trigger misses.
@@ -16,7 +16,7 @@
  *
  * NO SECRETS IN THIS FILE. Everything sensitive lives in
  * Project Settings → Script Properties (see SETUP.md):
- *   GITHUB_REPO     Alternator1/alternator1.github.io
+ *   GITHUB_REPO     Stats4Tanks/stats4tanks.github.io
  *   GITHUB_BRANCH   main
  *   GITHUB_TOKEN    fine-grained PAT (contents: read+write on that repo only)
  *   WORKER_SYNC_URL https://tierstats-publish.tierstats.workers.dev/sync
@@ -30,7 +30,7 @@
  */
 
 var CONFIG_DEFAULTS = {
-  GITHUB_REPO: 'Alternator1/alternator1.github.io',
+  GITHUB_REPO: 'Stats4Tanks/stats4tanks.github.io',
   GITHUB_BRANCH: 'main',
   WORKER_SYNC_URL: 'https://tierstats-publish.tierstats.workers.dev/sync',
   SYNC_STATUS_URL: 'https://tierstats-publish.tierstats.workers.dev/sync-status',

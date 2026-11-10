@@ -13,7 +13,7 @@
  * WEBSITE PUBLISHING LAYER (merged, Worker-first):
  *   - The 'TierStats website' menu + ttWebsiteOnChange trigger below only
  *     poke the tierstats-publish Worker so it regenerates data.js and commits
- *     to Alternator1/alternator1.github.io. They NEVER change ratings.
+ *     to Stats4Tanks/stats4tanks.github.io. They NEVER change ratings.
  *   - Secrets live in Project Settings -> Script Properties (never in code).
  *   - This file must be MERGED into the live project, never replace it.
  *
@@ -849,7 +849,7 @@ function round1_(n) {
  * Merged from the recovered site template. Worker-first design:
  *   1. This layer NEVER recalculates ratings — it only asks the
  *      tierstats-publish Worker to regenerate data.js + commit it to
- *      Alternator1/alternator1.github.io (menu instantly, trigger debounced,
+ *      Stats4Tanks/stats4tanks.github.io (menu instantly, trigger debounced,
  *      Worker 5-minute cron as backstop).
  *   2. The Worker owns all data.js commits (single-writer rule).
  *   3. Secrets live ONLY in Project Settings -> Script Properties. The only
@@ -865,7 +865,7 @@ function round1_(n) {
  */
 
 const TT_PUB = {
-  GITHUB_REPO: 'Alternator1/alternator1.github.io',
+  GITHUB_REPO: 'Stats4Tanks/stats4tanks.github.io',
   GITHUB_BRANCH: 'main',
   WORKER_SYNC_URL: 'https://tierstats-publish.tierstats.workers.dev/sync',
   SYNC_STATUS_URL: 'https://tierstats-publish.tierstats.workers.dev/sync-status',

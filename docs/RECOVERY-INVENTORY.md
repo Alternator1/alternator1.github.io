@@ -79,7 +79,7 @@ brand-tank, paint cans, icons, flags `gb/in/nl/ru`), `tankart/manifest.json`
 4. **Backend code & secrets**: the `tierstats-publish` Worker source, the
    original Apps Script project, the GitHub token and the admin password were
    intentionally never in the recovery package. The Worker must be re-pointed
-   at `Alternator1/alternator1.github.io`; see `apps-script/SETUP.md`.
+   at `Stats4Tanks/stats4tanks.github.io`; see `apps-script/SETUP.md`.
 
 ## Local test checklist (manual — run before any publish)
 

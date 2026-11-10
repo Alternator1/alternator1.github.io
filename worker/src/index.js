@@ -17,7 +17,7 @@
  *
  * Env (set in Cloudflare dashboard, never in code):
  *   SHEET_ID      spreadsheet id (var)
- *   GITHUB_REPO   e.g. Alternator1/alternator1.github.io (var)
+ *   GITHUB_REPO   e.g. Stats4Tanks/stats4tanks.github.io (var)
  *   GITHUB_BRANCH e.g. main (var)
  *   GITHUB_TOKEN  fine-grained PAT, Contents read+write on the repo (secret)
  *   WORKER_SECRET admin/sync password shared with the Sheet (secret)
@@ -28,7 +28,7 @@ const DATA_PATH = "data.js";
 const STALE_MINUTES = 30;
 
 const DEFAULTS = {
-  GITHUB_REPO: "Alternator1/alternator1.github.io",
+  GITHUB_REPO: "Stats4Tanks/stats4tanks.github.io",
   GITHUB_BRANCH: "main",
 };
 

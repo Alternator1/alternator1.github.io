@@ -9,7 +9,7 @@ script (`Kode.gs`) and the site (`app.js` footer/admin) expect.
 
 - `POST /sync {password}` and the 5-minute cron read the owned Sheet's
   public gviz export, rebuild `data.js`, and commit it to
-  `Alternator1/alternator1.github.io` (main) when it changed.
+  `Stats4Tanks/stats4tanks.github.io` (main) when it changed.
 - `GET /sync-status` reports `{matches, players, ageMinutes, stale,
   lastError, generated}` from the repo state (no KV/storage needed).
 - The Sheet stays the calculation authority: the Worker transfers the
@@ -43,7 +43,7 @@ script (`Kode.gs`) and the site (`app.js` footer/admin) expect.
 ## Setup (dashboard path, no Node needed)
 
 1. GitHub: fine-grained PAT (resource owner with access to the repo,
-   Only select repositories -> `alternator1.github.io`,
+   Only select repositories -> `stats4tanks.github.io`,
    Contents: Read and write (data.js sync) AND Pages: Read and write
    (lets the Worker request a Pages rebuild when the latest deployment
    errored; without Pages write, recovery reports "forbidden" and stays
