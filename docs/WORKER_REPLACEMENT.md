@@ -61,4 +61,4 @@ script (`Kode.gs`) and the site (`app.js` footer/admin) expect.
    (`https://tierstats-publish.<your-subdomain>.workers.dev/...`) and
    `WORKER_SECRET` to the password from step 3.
 6. Test: `GET /` (expect "tierstats sync worker ok"), then Sheet menu
-   TierStats -> Check sync status, then Update website now.
+   Stats4Tanks -> Check sync status, then Update website now.

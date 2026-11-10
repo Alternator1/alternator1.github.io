@@ -1,4 +1,4 @@
-# 1v1 Leaderboard — TierStats
+# Stats4Tanks — Tank Trouble 1v1 Leaderboard
 
 
 The definitive Tank Trouble 1v1 rankings — Dynamic Glicko ratings, full match

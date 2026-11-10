@@ -11,7 +11,7 @@
  * Add aliases in Aliases!A:B, e.g. Purity | Rapid, then recalculate.
  *
  * WEBSITE PUBLISHING LAYER (merged, Worker-first):
- *   - The 'TierStats website' menu + ttWebsiteOnChange trigger below only
+ *   - The 'Stats4Tanks website' menu + ttWebsiteOnChange trigger below only
  *     poke the tierstats-publish Worker so it regenerates data.js and commits
  *     to Stats4Tanks/stats4tanks.github.io. They NEVER change ratings.
  *   - Secrets live in Project Settings -> Script Properties (never in code).
@@ -49,7 +49,7 @@ function onOpen() {
 
   // Website publishing menu (merged layer — ratings untouched).
   SpreadsheetApp.getUi()
-    .createMenu('TierStats website')
+    .createMenu('Stats4Tanks website')
     .addItem('Update website now', 'updateWebsiteNow')
     .addItem('Check sync status', 'checkSyncStatus')
     .addItem('Setup check', 'setupCheck')
@@ -845,7 +845,7 @@ function round1_(n) {
   return Math.round(Number(n) * 10) / 10;
 }
 
-/* ================= TierStats website publishing layer =================
+/* ================= Stats4Tanks website publishing layer =================
  * Merged from the recovered site template. Worker-first design:
  *   1. This layer NEVER recalculates ratings — it only asks the
  *      tierstats-publish Worker to regenerate data.js + commit it to
@@ -889,9 +889,9 @@ function updateWebsiteNow() {
   const ui = SpreadsheetApp.getUi();
   if (res.ok) {
     ttProps_().setProperty('TT_PUB_LAST_PUSH_MS', String(Date.now()));
-    ui.alert('TierStats: website update triggered.\n' + (res.note || 'The Worker is regenerating data.js.'));
+    ui.alert('Stats4Tanks: website update triggered.\n' + (res.note || 'The Worker is regenerating data.js.'));
   } else {
-    ui.alert('TierStats sync failed: ' + res.error + '\nSee Apps Script Executions log.');
+    ui.alert('Stats4Tanks sync failed: ' + res.error + '\nSee Apps Script Executions log.');
   }
   return res;
 }
@@ -907,7 +907,7 @@ function checkSyncStatus() {
       '\nLast publish: ' + (data.ageMinutes != null ? data.ageMinutes + ' min ago' : 'unknown') +
       (data.stale ? '\nSTALE' : '') +
       (data.lastError ? '\nLast error: ' + data.lastError : '');
-    SpreadsheetApp.getUi().alert('TierStats sync status\n\n' + msg);
+    SpreadsheetApp.getUi().alert('Stats4Tanks sync status\n\n' + msg);
     return data;
   } catch (err) {
     SpreadsheetApp.getUi().alert('Could not reach sync-status: ' + err);
@@ -929,7 +929,7 @@ function setupCheck() {
     ? 'Missing Script Properties:\n- ' + missing.join('\n- ') + '\n\nWebsite sync stays dormant until this is set; leaderboard recalculation is unaffected.'
     : 'Script Properties look complete.\nRepo: ' + ttPubCfg_('GITHUB_REPO') +
       ' (branch ' + ttPubCfg_('GITHUB_BRANCH') + ').\nDo NOT install the auto-sync trigger or run Update website now until Worker control is confirmed.';
-  SpreadsheetApp.getUi().alert('TierStats setup check\n\n' + msg);
+  SpreadsheetApp.getUi().alert('Stats4Tanks setup check\n\n' + msg);
   return { ok: missing.length === 0, missing: missing };
 }
 
@@ -1008,6 +1008,6 @@ function ttInstallWebsiteTrigger() {
     .onChange()
     .create();
   SpreadsheetApp.getUi().alert(
-    'TierStats website auto-sync installed. Edits to Matches, Settings, Aliases, Seeds or Inactive trigger a website update (debounced).'
+    'Stats4Tanks website auto-sync installed. Edits to Matches, Settings, Aliases, Seeds or Inactive trigger a website update (debounced).'
   );
 }

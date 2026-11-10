@@ -4,37 +4,37 @@
 <base href="/">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TierStats – Tank Trouble 1v1 Leaderboard</title>
-<meta name="description" content="TierStats is the Tank Trouble 1v1 leaderboard: Glicko ratings, player cards, the full match archive, head-to-head stats and server ping profiles.">
+<title>Leaderboard – Stats4Tanks</title>
+<meta name="description" content="Stats4Tanks is the Tank Trouble 1v1 leaderboard: Glicko ratings, player cards, the full match archive, head-to-head stats and server ping profiles.">
 <!-- Open Graph: the DEFAULT embed - shown only for home/default links.
      work/gen_share_pages.js rewrites these per player & route into static
      share pages, so shared profile links carry exclusive text + tank art. -->
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="TierStats">
-<meta property="og:title" content="TierStats – Tank Trouble 1v1 Leaderboard">
-<meta property="og:description" content="TierStats is the Tank Trouble 1v1 leaderboard: Glicko ratings, player cards, the full match archive, head-to-head stats and server ping profiles.">
+<meta property="og:site_name" content="Stats4Tanks">
+<meta property="og:title" content="Leaderboard – Stats4Tanks">
+<meta property="og:description" content="Stats4Tanks is the Tank Trouble 1v1 leaderboard: Glicko ratings, player cards, the full match archive, head-to-head stats and server ping profiles.">
 <meta property="og:url" content="https://stats4tanks.github.io/">
 <meta property="og:image" content="https://stats4tanks.github.io/share/_default.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="TierStats – Tank Trouble 1v1 Leaderboard">
-<meta name="twitter:description" content="TierStats is the Tank Trouble 1v1 leaderboard: Glicko ratings, player cards, the full match archive, head-to-head stats and server ping profiles.">
+<meta name="twitter:title" content="Leaderboard – Stats4Tanks">
+<meta name="twitter:description" content="Stats4Tanks is the Tank Trouble 1v1 leaderboard: Glicko ratings, player cards, the full match archive, head-to-head stats and server ping profiles.">
 <meta name="twitter:image" content="https://stats4tanks.github.io/share/_default.png">
 <link rel="canonical" href="https://stats4tanks.github.io/">
 <meta name="robots" content="index,follow">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebSite","name":"TierStats","alternateName":"1v1 Leaderboard","url":"https://stats4tanks.github.io/","description":"Tank Trouble 1v1 leaderboard with Glicko ratings, player cards, the full match archive and head-to-head stats."}
+{"@context":"https://schema.org","@type":"WebSite","name":"Stats4Tanks","alternateName":"1v1 Leaderboard","url":"https://stats4tanks.github.io/","description":"Tank Trouble 1v1 leaderboard with Glicko ratings, player cards, the full match archive and head-to-head stats."}
 </script>
 <script>try{document.documentElement.dataset.theme=localStorage.getItem('tt1v1_theme')||'dark'}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261110210000">
-<link rel="stylesheet" href="cards.css?v=20261110210000">
-<link rel="stylesheet" href="rankmove.css?v=20261110210000">
-<link rel="icon" type="image/svg+xml" href="/art/favicon.svg?v=20261110210000">
-<link rel="apple-touch-icon" href="/art/icon-192.png?v=20261110210000">
+<link rel="stylesheet" href="styles.css?v=20261110230000">
+<link rel="stylesheet" href="cards.css?v=20261110230000">
+<link rel="stylesheet" href="rankmove.css?v=20261110230000">
+<link rel="icon" type="image/svg+xml" href="/art/favicon.svg?v=20261110230000">
+<link rel="apple-touch-icon" href="/art/icon-192.png?v=20261110230000">
 <!-- installable: the same plate, the same colours, no separate icon work -->
-<link rel="manifest" href="/manifest.webmanifest?v=20261110210000">
+<link rel="manifest" href="/manifest.webmanifest?v=20261110230000">
 </head>
 <body>
 <a class="skip-link" href="#main" data-i18n="a11y.skip">Skip to content</a>
@@ -42,7 +42,7 @@
 <!-- ======================= TOP BAR ======================= -->
 <header class="topbar">
   <div class="topbar-in">
-    <a class="brand" href="#/" aria-label="1v1 Leaderboard">
+    <a class="brand" href="#/" aria-label="Leaderboard – Stats4Tanks">
       <span class="brand-mark" aria-hidden="true">
         <svg viewBox="0 0 24 24" width="25" height="25" fill="currentColor">
           <path fill-rule="evenodd" d="M4.2 16.1h15.6a3.15 3.15 0 0 1 0 6.3H4.2a3.15 3.15 0 0 1 0-6.3Zm2.4 1.35a1.8 1.8 0 1 0 0 3.6 1.8 1.8 0 0 0 0-3.6Zm5.4 0a1.8 1.8 0 1 0 0 3.6 1.8 1.8 0 0 0 0-3.6Zm5.4 0a1.8 1.8 0 1 0 0 3.6 1.8 1.8 0 0 0 0-3.6Z"/>
@@ -50,7 +50,7 @@
           <path fill-rule="evenodd" d="M9.2 11.4V8.6c0-.75.6-1.35 1.35-1.35h2.9c.75 0 1.35.6 1.35 1.35v2.8H9.2Zm2.8-1.5a1.05 1.05 0 1 0 0 2.1 1.05 1.05 0 0 0 0-2.1Z"/>
           <path d="M14.4 8.15h8.38c.52 0 .94.42.94.94v.42c0 .52-.42.94-.94.94H14.4V8.15Z"/>
         </svg>
-        <img class="brand-tank-img" src="/art/brand-tank.png?v=20261110210000" width="395" height="282" alt="" draggable="false">
+        <img class="brand-tank-img" src="/art/brand-tank.png?v=20261110230000" width="395" height="282" alt="" draggable="false">
       </span>
       <span class="brand-lock" aria-hidden="true"><b>1v1</b><i data-i18n="top.brandSub">Leaderboard</i></span>
     </a>
@@ -1113,7 +1113,7 @@
   <div class="wrap">
     <div class="foot-top">
       <div class="foot-brand">
-        <a class="foot-logo" href="#/" aria-label="1v1 Leaderboard"><span class="foot-logo-11">1v1</span><span class="foot-logo-word">Leaderboard</span></a>
+        <a class="foot-logo" href="#/" aria-label="Stats4Tanks"><span class="foot-logo-11">Stats</span><span class="foot-logo-word">4Tanks</span></a>
         <p class="foot-tagline" data-i18n="foot.tagline">The definitive Tank Trouble 1v1 rankings - every recorded duel, rated by Glicko.</p>
         <a class="foot-play" href="https://tanktrouble.com/" target="_blank" rel="noopener noreferrer"><span data-i18n="site.playTT">Play Tank Trouble</span>
           <svg class="ext-ico" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true" focusable="false"><path d="M7 17 17 7M8 7h9v9" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1143,7 +1143,7 @@
       </div>
     </div>
     <div class="foot-bottom">
-      <span class="foot-copy" data-i18n-html="foot.rights">© 2026 <b>1v1 Leaderboard</b> - Tank Trouble competitive rankings.</span>
+      <span class="foot-copy" data-i18n-html="foot.rights">© 2026 <b>Stats4Tanks</b> - Tank Trouble competitive rankings.</span>
       <span class="foot-updated" id="foot-updated"></span>
     </div>
   </div>
@@ -1275,7 +1275,7 @@
 <button class="to-top" id="to-top" aria-label="Back to top" title="Back to top" data-i18n-attr="aria-label:misc.toTop;title:misc.toTop">
   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1"><path d="M6 12.5l6-6 6 6M6 18.5l6-6 6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
 </button>
-<script src="i18n.js?v=20261110210000"></script>
+<script src="i18n.js?v=20261110230000"></script>
 <script>
   /* data.js is rewritten by the sheet sync worker outside of site deploys -
      load it with a per-request cache-buster so every refresh shows the
@@ -1284,12 +1284,12 @@
   document.write('<script src="data.js?t=' + Date.now() + '\"><\/script>');
 </script>
 <script src="log.js?v=1794225931899"></script>
-<script src="tanks.js?v=20261110210000"></script>
-<script src="tankrender.js?v=20261110210000"></script>
-<script src="cards.js?v=20261110210000"></script>
-<script src="tourneys.js?v=20261110210000"></script>
-<script src="app.js?v=20261110210000"></script>
-<script src="rankmove.js?v=20261110210000"></script>
+<script src="tanks.js?v=20261110230000"></script>
+<script src="tankrender.js?v=20261110230000"></script>
+<script src="cards.js?v=20261110230000"></script>
+<script src="tourneys.js?v=20261110230000"></script>
+<script src="app.js?v=20261110230000"></script>
+<script src="rankmove.js?v=20261110230000"></script>
 <script>
 /* Offline board + fast repeat visits.
    The version number is this page's own asset stamp, so every publish is a new

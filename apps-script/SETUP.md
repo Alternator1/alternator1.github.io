@@ -1,4 +1,4 @@
-# TierStats Sheet → GitHub sync — setup (new repo)
+# Stats4Tanks Sheet → GitHub sync — setup (new repo)
 
 Retargets the live sync to **`Stats4Tanks/stats4tanks.github.io`** without
 hard-coding any credential. The Google Sheet stays the authoritative data
@@ -10,7 +10,7 @@ update.
 1. Sheet formulas recalculate automatically on every edit (ratings,
    leaderboard, provisional — no script needed for that).
 2. This script pokes the `tierstats-publish` Worker (`POST /sync`) instantly
-   via the **TierStats → Update website now** menu and an on-change trigger.
+   via the **Stats4Tanks → Update website now** menu and an on-change trigger.
 3. The Worker's 5-minute Cloudflare cron re-syncs as a backstop.
 4. The **Worker alone** regenerates `data.js` (+ generated site data) and
    commits to GitHub → Pages redeploys. Keep this single-writer rule: the
@@ -30,7 +30,7 @@ update.
 
 1. Open the master Google Sheet → Extensions → Apps Script.
 2. Replace the project code with `apps-script/Code.gs` from this repo.
-3. Rename the project `TierStats sync` if you like. Save.
+3. Rename the project `Stats4Tanks sync` if you like. Save.
 
 ## 3. Set Script Properties (secrets live here only)
 
@@ -45,7 +45,7 @@ Project Settings (gear) → Script Properties → add:
 | `WORKER_SECRET` | same secret as the `#/admin` password |
 | `SYNC_STATUS_URL` | `https://tierstats-publish.tierstats.workers.dev/sync-status` |
 
-Run **TierStats → Setup check** in the Sheet to verify.
+Run **Stats4Tanks → Setup check** in the Sheet to verify.
 
 ## 4. Install the automatic trigger
 
@@ -65,8 +65,8 @@ player counts).
 
 ## 6. Test end to end
 
-1. Sheet: run **TierStats → Update website now** → expect success toast.
-2. Sheet: run **TierStats → Check sync status** → last publish "just now".
+1. Sheet: run **Stats4Tanks → Update website now** → expect success toast.
+2. Sheet: run **Stats4Tanks → Check sync status** → last publish "just now".
 3. Make a trivial sheet edit → within ~2 min the trigger pokes `/sync`;
    within ~5 min the cron would anyway.
 4. Confirm the commit landed in `Stats4Tanks/stats4tanks.github.io` (`data.js`

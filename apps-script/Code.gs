@@ -1,5 +1,5 @@
 /**
- * TierStats — Google Sheet → GitHub live sync (retargeted 2026-11-09).
+ * Stats4Tanks — Google Sheet → GitHub live sync (retargeted 2026-11-09).
  *
  * Target repo: Stats4Tanks/stats4tanks.github.io (branch: main).
  * Chain: Sheet (auto-recalc, authoritative) → this script → tierstats-publish
@@ -50,9 +50,9 @@ function cfg(key) {
   return props().getProperty(key) || CONFIG_DEFAULTS[key] || '';
 }
 
-/** Add-on menu: TierStats → Update website now / Check sync status / Setup check. */
+/** Add-on menu: Stats4Tanks → Update website now / Check sync status / Setup check. */
 function onOpen() {
-  SpreadsheetApp.getUi().createMenu('TierStats')
+  SpreadsheetApp.getUi().createMenu('Stats4Tanks')
     .addItem('Update website now', 'updateWebsiteNow')
     .addItem('Check sync status', 'checkSyncStatus')
     .addItem('Setup check', 'setupCheck')
@@ -83,9 +83,9 @@ function updateWebsiteNow() {
   var ui = SpreadsheetApp.getUi();
   if (res.ok) {
     props().setProperty('LAST_SYNC_PUSH_MS', String(Date.now()));
-    ui.alert('TierStats: website update triggered ✓\n' + (res.note || 'The Worker is regenerating data.js.'));
+    ui.alert('Stats4Tanks: website update triggered ✓\n' + (res.note || 'The Worker is regenerating data.js.'));
   } else {
-    ui.alert('TierStats sync failed: ' + res.error + '\nSee Apps Script Executions log.');
+    ui.alert('Stats4Tanks sync failed: ' + res.error + '\nSee Apps Script Executions log.');
   }
   return res;
 }
@@ -101,7 +101,7 @@ function checkSyncStatus() {
       '\nLast publish: ' + (data.ageMinutes != null ? data.ageMinutes + ' min ago' : 'unknown') +
       (data.stale ? '\nSTALE' : '') +
       (data.lastError ? '\nLast error: ' + data.lastError : '');
-    SpreadsheetApp.getUi().alert('TierStats sync status\n\n' + msg);
+    SpreadsheetApp.getUi().alert('Stats4Tanks sync status\n\n' + msg);
     return data;
   } catch (err) {
     SpreadsheetApp.getUi().alert('Could not reach sync-status: ' + err);
@@ -121,7 +121,7 @@ function setupCheck() {
     : 'Script Properties look complete for repo ' + cfg('GITHUB_REPO') +
       ' (branch ' + cfg('GITHUB_BRANCH') + ').\nSheet recalculation is automatic; ' +
       'this script only triggers the website update.';
-  SpreadsheetApp.getUi().alert('TierStats setup check\n\n' + msg);
+  SpreadsheetApp.getUi().alert('Stats4Tanks setup check\n\n' + msg);
   return { ok: missing.length === 0, missing: missing };
 }
 
