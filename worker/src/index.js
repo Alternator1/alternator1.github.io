@@ -338,7 +338,12 @@ function mapPlayerRow(row, head) {
   const name = cellStrRaw(get(["player"]));
   const rating = round1(cellNum(get(["rating"])));
   if (!name || !Number.isFinite(rating)) return null;
-  const winPct = cellPct(get(["win %", "win%"]));
+  // Derive the win rate from the W/Matches columns instead of the sheet's
+  // "Win %" column: that column is written as a 0-1 fraction and has been
+  // syncing as a flat 0 for every player, which made the board read 0.0%.
+  const winMatches = asInt(cellNum(get(["matches"])));
+  const winWins = asInt(cellNum(get(["w"])));
+  const winPct = winMatches > 0 ? (winWins / winMatches) * 100 : 0;
   return {
     rank: asInt(cellNum(get(["rank"])), 0),
     name,
