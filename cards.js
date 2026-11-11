@@ -203,12 +203,6 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
           </button>
         </div>
-        <div class="deck-sort" role="group" aria-label="${m(t("cards.sort"))}">
-          <span class="deck-sort-k">${t("cards.sort")}</span>
-          <button type="button" class="deck-sort-btn on" data-sort="rank" aria-pressed="true">${t("cards.sortRank")}</button>
-          <button type="button" class="deck-sort-btn" data-sort="rating" aria-pressed="false">${t("cards.sortRating")}</button>
-          <button type="button" class="deck-sort-btn" data-sort="name" aria-pressed="false">${t("cards.sortName")}</button>
-        </div>
         <span class="deck-count mono" id="deck-count">${tp("cards.count",s.length)}</span>
       </div>
 
