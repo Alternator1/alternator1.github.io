@@ -1,6 +1,6 @@
 {
-  "name": "Stats4Tanks – Tank Trouble 1v1 Leaderboard",
-  "short_name": "Stats4Tanks",
+  "name": "TierStats – Tank Trouble 1v1 Leaderboard",
+  "short_name": "TierStats",
   "description": "Glicko-2 ratings, player cards, the full match archive, head-to-head stats and Find a 1v1 for Tank Trouble.",
   "id": "/",
   "start_url": "/",

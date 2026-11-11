@@ -4,37 +4,37 @@
 <base href="/">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Leaderboard – Stats4Tanks</title>
-<meta name="description" content="Stats4Tanks is the Tank Trouble 1v1 leaderboard: Glicko ratings, player cards, the full match archive, head-to-head stats and server ping profiles.">
+<title>Leaderboard – TierStats</title>
+<meta name="description" content="TierStats is the TankTrouble 1v1 leaderboard: Glicko ratings, player cards, the full match archive, head-to-head stats and server ping profiles.">
 <!-- Open Graph: the DEFAULT embed - shown only for home/default links.
      work/gen_share_pages.js rewrites these per player & route into static
      share pages, so shared profile links carry exclusive text + tank art. -->
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="Stats4Tanks">
-<meta property="og:title" content="Leaderboard – Stats4Tanks">
-<meta property="og:description" content="Stats4Tanks is the Tank Trouble 1v1 leaderboard: Glicko ratings, player cards, the full match archive, head-to-head stats and server ping profiles.">
+<meta property="og:site_name" content="TierStats">
+<meta property="og:title" content="Leaderboard – TierStats">
+<meta property="og:description" content="TierStats is the TankTrouble 1v1 leaderboard: Glicko ratings, player cards, the full match archive, head-to-head stats and server ping profiles.">
 <meta property="og:url" content="https://stats4tanks.github.io/">
 <meta property="og:image" content="https://stats4tanks.github.io/share/_default.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Leaderboard – Stats4Tanks">
-<meta name="twitter:description" content="Stats4Tanks is the Tank Trouble 1v1 leaderboard: Glicko ratings, player cards, the full match archive, head-to-head stats and server ping profiles.">
+<meta name="twitter:title" content="Leaderboard – TierStats">
+<meta name="twitter:description" content="TierStats is the TankTrouble 1v1 leaderboard: Glicko ratings, player cards, the full match archive, head-to-head stats and server ping profiles.">
 <meta name="twitter:image" content="https://stats4tanks.github.io/share/_default.png">
 <link rel="canonical" href="https://stats4tanks.github.io/">
 <meta name="robots" content="index,follow">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebSite","name":"Stats4Tanks","alternateName":"1v1 Leaderboard","url":"https://stats4tanks.github.io/","description":"Tank Trouble 1v1 leaderboard with Glicko ratings, player cards, the full match archive and head-to-head stats."}
+{"@context":"https://schema.org","@type":"WebSite","name":"TierStats","alternateName":"TierStats","url":"https://stats4tanks.github.io/","description":"TankTrouble 1v1 leaderboard with Glicko ratings, player cards, the full match archive and head-to-head stats."}
 </script>
-<script>try{document.documentElement.dataset.theme=localStorage.getItem('tt1v1_theme')||'dark'}catch(e){}</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261111120000">
-<link rel="stylesheet" href="cards.css?v=20261111120000">
-<link rel="stylesheet" href="rankmove.css?v=20261111120000">
-<link rel="icon" type="image/svg+xml" href="/art/favicon.svg?v=20261111120000">
-<link rel="apple-touch-icon" href="/art/icon-192.png?v=20261111120000">
+<link rel="stylesheet" href="styles.css?v=20261111228000">
+<link rel="stylesheet" href="cards.css?v=20261111228000">
+<link rel="stylesheet" href="rankmove.css?v=20261111228000">
+<link rel="icon" type="image/svg+xml" href="/art/favicon.svg?v=20261111228000">
+<link rel="apple-touch-icon" href="/art/icon-192.png?v=20261111228000">
 <!-- installable: the same plate, the same colours, no separate icon work -->
-<link rel="manifest" href="/manifest.webmanifest?v=20261111120000">
+<link rel="manifest" href="/manifest.webmanifest?v=20261111228000">
 </head>
 <body>
 <a class="skip-link" href="#main" data-i18n="a11y.skip">Skip to content</a>
@@ -42,7 +42,7 @@
 <!-- ======================= TOP BAR ======================= -->
 <header class="topbar">
   <div class="topbar-in">
-    <a class="brand" href="#/" aria-label="Leaderboard – Stats4Tanks">
+    <a class="brand" href="#/" aria-label="Leaderboard – TierStats">
       <span class="brand-mark" aria-hidden="true">
         <svg viewBox="0 0 24 24" width="25" height="25" fill="currentColor">
           <path fill-rule="evenodd" d="M4.2 16.1h15.6a3.15 3.15 0 0 1 0 6.3H4.2a3.15 3.15 0 0 1 0-6.3Zm2.4 1.35a1.8 1.8 0 1 0 0 3.6 1.8 1.8 0 0 0 0-3.6Zm5.4 0a1.8 1.8 0 1 0 0 3.6 1.8 1.8 0 0 0 0-3.6Zm5.4 0a1.8 1.8 0 1 0 0 3.6 1.8 1.8 0 0 0 0-3.6Z"/>
@@ -50,9 +50,9 @@
           <path fill-rule="evenodd" d="M9.2 11.4V8.6c0-.75.6-1.35 1.35-1.35h2.9c.75 0 1.35.6 1.35 1.35v2.8H9.2Zm2.8-1.5a1.05 1.05 0 1 0 0 2.1 1.05 1.05 0 0 0 0-2.1Z"/>
           <path d="M14.4 8.15h8.38c.52 0 .94.42.94.94v.42c0 .52-.42.94-.94.94H14.4V8.15Z"/>
         </svg>
-        <img class="brand-tank-img" src="/art/brand-tank.png?v=20261111120000" width="395" height="282" alt="" draggable="false">
+        <img class="brand-tank-img" src="/art/brand-tank.png?v=20261111228000" width="395" height="282" alt="" draggable="false">
       </span>
-      <span class="brand-lock" aria-hidden="true"><b>1v1</b><i data-i18n="top.brandSub">Leaderboard</i></span>
+      <span class="brand-lock" aria-hidden="true"><b>TierStats</b></span>
     </a>
     <nav class="nav" aria-label="Site sections" data-i18n-attr="aria-label:foot.sections">
       <span class="nav-glide" id="nav-glide"></span>
@@ -93,14 +93,9 @@
         <div class="lang-menu" id="lang-menu" role="menu">
           <button data-lang="en" role="menuitemradio" aria-checked="true"><span class="ck">✓</span><span class="ln">English</span><span class="lc">EN</span></button>
           <button data-lang="zh" role="menuitemradio" aria-checked="false"><span class="ck">✓</span><span class="ln">简体中文</span><span class="lc">中</span></button>
-          <button data-lang="ja" role="menuitemradio" aria-checked="false"><span class="ck">✓</span><span class="ln">日本語</span><span class="lc">日</span></button>
           <button data-lang="ru" role="menuitemradio" aria-checked="false"><span class="ck">✓</span><span class="ln">Русский</span><span class="lc">РУ</span></button>
         </div>
       </div>
-      <button class="icon-btn theme-toggle" id="theme-toggle" title="Switch to light mode" aria-label="Switch to light mode" aria-pressed="false">
-        <svg class="ic-moon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" stroke-linejoin="round"/></svg>
-        <svg class="ic-sun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" stroke-linecap="round"/></svg>
-      </button>
       <button class="icon-btn mnav-btn" id="mnav-btn" aria-controls="mnav" aria-expanded="false" aria-label="Menu" title="Menu" data-i18n-attr="aria-label:top.menu;title:top.menu">
         <span class="mnav-bars" aria-hidden="true"><i></i><i></i><i></i></span>
       </button>
@@ -137,13 +132,12 @@
       <div class="hero-grid">
         <div class="hero-copy">
           <h1 data-i18n-html="home.h1">Every duel.<br>Every rank.<br><span class="gold">One leaderboard.</span></h1>
-          <p class="sub" data-i18n="home.sub">The definitive Tank Trouble 1v1 rankings - built on the Glicko rating system,
-      so your rating knows how reliable it is. Click any player for their full profile.</p>
+          <p class="sub" data-i18n="home.sub">The definitive TankTrouble 1v1 rankings - built on the Glicko rating system. Click any player for their full profile.</p>
           <div class="hero-links">
             <a class="section-link hero-link" href="#full-rankings"><span data-i18n="home.fullRankings">Full rankings</span>
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </a>
-            <a class="hero-play" href="https://tanktrouble.com/" target="_blank" rel="noopener noreferrer"><span data-i18n="site.playTT">Play Tank Trouble</span>
+            <a class="hero-play" href="https://tanktrouble.com/" target="_blank" rel="noopener noreferrer"><span data-i18n="site.playTT">Play TankTrouble</span>
               <svg class="ext-ico" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true" focusable="false"><path d="M7 17 17 7M8 7h9v9" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </a>
           </div>
@@ -205,14 +199,6 @@
         </div>
         <div class="lb-segs" id="lb-segs" role="group" data-i18n-attr="aria-label:lb.filterPh">
           <button class="lb-seg on" data-filter="all" aria-pressed="true"><span data-i18n="chip.all">All players</span><b id="lb-c-all">-</b></button>
-          <button class="lb-seg" data-filter="rising" aria-pressed="false" data-i18n-attr="title:chip.risingTip"><span data-i18n="chip.rising">Rising</span><b id="lb-c-rising">-</b></button>
-          <button class="lb-seg" data-filter="veterans" aria-pressed="false" data-i18n-attr="title:chip.veteransTip"><span data-i18n="chip.veterans">Veterans</span><b id="lb-c-veterans">-</b></button>
-          <button class="lb-seg" data-filter="provisional" aria-pressed="false"><span data-i18n="chip.provisional">Provisional</span><b id="lb-c-provisional">-</b></button>
-          <button class="lb-seg" data-filter="inactive" aria-pressed="false"><span data-i18n="chip.inactive">Inactive</span><b id="lb-c-inactive">-</b></button>
-          <button class="toggle-btn on" id="lb-qual" data-i18n-attr="aria-label:lb.qualOnly">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 5h16l-6 7v6l-4 2v-8L4 5Z" stroke-linejoin="round"/></svg>
-            <span data-i18n="lb.qualOnly">Qualified only</span>
-          </button>
         </div>
       </div>
 
@@ -432,9 +418,8 @@
     <section class="method-intro anim">
       <div class="method-sec-head"><h2 data-i18n-html="method.idea3">The idea in <span class="n">3 steps</span></h2></div>
       <div class="method-steps">
-        <article class="method-step"><span class="step-n mono">01</span><div data-i18n-html="method.step1"><b>Everyone starts from their old rating.</b>
-          The original 0–100 scores are converted into Glicko starting points
-          (old 80 ≈ 1500), so history carries over.</div></article>
+        <article class="method-step"><span class="step-n mono">01</span><div><b>New players start at 1500 Glicko with 250 RD.</b>
+          That is a fresh rating at maximum uncertainty. Players coming from the previous ladder start from a rating converted out of their old score, so their history carries over.</div></article>
         <article class="method-step"><span class="step-n mono">02</span><div data-i18n-html="method.step2"><b>Every match moves the numbers.</b>
           Beat someone stronger and you gain more; lose to someone weaker and you
           drop more. Results are processed in 30-day rating periods.</div></article>
@@ -454,7 +439,6 @@
         <div class="method-prov-copy">
           <p data-i18n-html="method.provLead">New players start at <b>1500 Glicko / 250 RD</b>. Until they have <b>3 rated matches against 2 different opponents</b>, an established opponent's rating change is scaled to <b>25%</b>. The newcomer's own rating still moves at <b>100%</b>.</p>
           <p data-i18n-html="method.provBoth">It works in both directions - a newcomer's win or loss can only move an established player by a quarter of the usual amount, so one unknown result cannot swing the board.</p>
-          <p class="method-prov-example" data-i18n-html="method.provExample">An 1800 who loses to an uncalibrated newcomer takes a quarter of the usual hit; the newcomer still climbs - or falls - at full speed. Once calibrated, every result counts in full.</p>
         </div>
         <div class="method-prov-stats">
           <div class="method-prov-stat"><b class="mono">25%</b><span data-i18n="method.provEstablished">established opponent's change</span></div>
@@ -514,7 +498,7 @@
         <h2 data-i18n="method.verified">Verified against the master sheet</h2>
         <p data-i18n-html="method.verifiedBody">Every value on this site is recomputed from raw match results and validated to
         match the official Google Sheet exactly - every player, every rating, RD,
-        record and average-opponent figure. No manual rankings, no politics. Just duels.</p>
+        record and average-opponent figure. No hand-picked numbers - the sheet is the only input.</p>
       </div>
       <a class="method-faq-link" href="#/faq"><span data-i18n="method.faqLink">Read the FAQ</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
     </section>
@@ -527,15 +511,9 @@
       </summary>
       <div class="method-adv-body">
         <div class="method-adv-grid">
-          <div class="panel">
-            <h3 data-i18n-html="method.seedsTitle">Step 1 · <span class="n">Starting ratings (seeds)</span></h3>
-            <p data-i18n-html="method.seedsBody">Players from the old 0–100 ladder keep their history: the old score is converted
-            into a starting Glicko with the midpoint mapping below. A player with no old
-            rating starts unrated with maximum uncertainty. Very low old scores never start
-            below the floor the master sheet uses.</p>
-            <div class="formula-box">seed glicko = max( 700 , 1500 + (old − 80) × 30 )<br>seed RD = 80 &nbsp;·&nbsp; unrated start = 1500 / RD 250</div>
-            <p class="method-foot" data-i18n="method.seedsNote">The floor matters: an old score of 8 maps to −660 by the raw formula, but the
-            master sheet seeds that player at 700 - and this site reproduces it exactly.</p>
+                    <div class="panel">
+            <h3>Starting point</h3>
+            <p>New players start at <b>1500 Glicko with 250 RD</b> - maximum uncertainty. Players carried over from the previous ladder start from a rating converted out of their old score, so their history carries over.</p>
           </div>
           <div class="panel">
             <h3 data-i18n-html="method.updateTitle">Step 2 · <span class="n">The Glicko update</span></h3>
@@ -572,31 +550,9 @@
                 (2026-10-04) before the inactivity rule applies to them.</div></li>
             </ul>
           </div>
-          <div class="panel mspan-2 method-stats">
-            <h3 data-i18n="method.statsTitle">Every stat, explained</h3>
-            <ul class="explain-list">
-              <li><span class="num">G</span><div data-i18n-html="method.statG"><b>Glicko</b> - the raw model output (the true estimated skill).</div></li>
-              <li><span class="num">RD</span><div data-i18n-html="method.statRd"><b>Ratings deviation</b> - the uncertainty. Shrinks with results (never above 250, never below… well, very confident), grows with silence. RD ~50 = well known; RD 200+ = brand new.</div></li>
-              <li><span class="num">V</span><div data-i18n-html="method.statV"><b>Visible rating</b> - what the board ranks by: Glicko − <span class="cons-val">0.5</span> × RD. Uncertainty is held back until trust is earned.</div></li>
-              <li><span class="num">%</span><div data-i18n-html="method.statPct"><b>Win %</b> - wins / matches, rounded at the display precision.</div></li>
-              <li><span class="num">Ø</span><div data-i18n-html="method.statAvg"><b>Avg opp</b> - the average final Glicko of your <i>distinct</i> opponents. High here means you've been fighting the top of the board.</div></li>
-            </ul>
-          </div>
-        </div>
-        <div class="panel method-settings">
-          <h3 data-i18n="method.liveSettings">Live settings</h3>
-          <table class="settings-table">
-            <thead><tr><th data-i18n="method.setting">Setting</th><th data-i18n="method.value">Value</th></tr></thead>
-            <tbody id="settings-body"></tbody>
-          </table>
         </div>
       </div>
     </details>
-    <div class="panel method-rules-panel anim">
-      <h3 data-i18n="method.rulesTitle">The rules, at a glance</h3>
-      <p class="method-rules-lead" data-i18n="method.rulesMoved">Qualification, how to log a match, alts and what gets rejected all live on one page now.</p>
-      <a class="btn method-rules-btn" href="#/rules" data-i18n="nav.rules">Rules</a>
-    </div>
  </div>
 </main>
 
@@ -629,22 +585,6 @@
         </div>
       </div>
       <aside class="fq-side">
-        <section class="panel fq-ladder-panel reveal">
-          <div class="fq-side-head">
-            <h2 data-i18n="faq.ladderTitle">Badge ladder</h2>
-            <span class="fq-side-note" id="faq-ladder-note"></span>
-          </div>
-          <div class="fq-ladder" id="faq-ladder"></div>
-          <div class="fq-ladder-note" data-i18n-html="faq.ladderNote">Badge tier comes from visible rating = Glicko − <span class="cons-val">0.5</span> × RD.</div>
-          <a class="fq-ladder-link" href="#/cards"><span data-i18n="faq.ladderLink">View the deck</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
-        </section>
-        <section class="panel fq-links-panel reveal">
-          <h2 data-i18n="faq.quickTitle">Go deeper</h2>
-          <a class="fq-link" href="#/method"><span data-i18n="faq.linkMethod">How the rating works</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
-          <a class="fq-link" href="#/compare"><span data-i18n="faq.linkCompare">Compare players</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
-          <a class="fq-link" href="#/find"><span data-i18n="faq.linkFind">Find a 1v1</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
-          <a class="fq-link" href="#/cards"><span data-i18n="faq.linkCards">Player cards</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
-        </section>
         <section class="panel fq-help-panel reveal">
           <h2 data-i18n="faq.stuck">Still stuck on something?</h2>
           <p data-i18n="faq.stuckBody">Send us a message - the team reads every one and you can check back for a reply.</p>
@@ -824,287 +764,61 @@
 <main id="page-rules" class="page">
   <div class="wrap">
     <section class="hero anim" style="padding-top:10px">
-      <div class="kicker" data-i18n="rules.kicker"></div>
-      <h1 style="font-size:clamp(36px,5vw,58px)" data-i18n-html="rules.h1"></h1>
-      <p class="sub" data-i18n="rules.sub"></p>
-      <div class="ru-facts-row">
-        <div class="ru-facts" role="list">
-        <span class="ru-fact" role="listitem" data-i18n-html="rules.f1"></span>
-        <span class="ru-fact" role="listitem" data-i18n-html="rules.f2"></span>
-        <span class="ru-fact" role="listitem" data-i18n-html="rules.f3"></span>
-        <span class="ru-fact" role="listitem" data-i18n-html="rules.f4"></span>
-        </div>
-        <div class="ru-hero-cta">
-          <a class="btn btn-primary" href="https://tanktrouble.com/forum?threadId=475409" target="_blank" rel="noopener noreferrer" data-i18n="rules.openThread"></a>
-          <a class="btn btn-ghost" href="#/find" data-i18n="rules.findDuel"></a>
-        </div>
-      </div>
-      <p class="ru-legend">
-        <span class="ru-legend-item"><span class="ru-tag ru-tag-req" data-i18n="rules.tagReq"></span><span data-i18n="rules.legReq"></span></span>
-        <span class="ru-legend-item"><span class="ru-tag ru-tag-rec" data-i18n="rules.tagRec"></span><span data-i18n="rules.legRec"></span></span>
-        <span class="ru-legend-item"><span class="ru-tag ru-tag-enf" data-i18n="rules.tagEnf"></span><span data-i18n="rules.legEnf"></span></span>
-        <span class="ru-legend-item"><span class="ru-tag ru-tag-aut" data-i18n="rules.tagAut"></span><span data-i18n="rules.legAut"></span></span>
-      </p>
-    </section>
-
-    <section class="ru-flow reveal">
-      <div class="ru-band-head" data-i18n="rules.flowTitle"></div>
-      <div class="ru-steps">
-        <article class="ru-step"><span class="ru-step-n">01</span><b data-i18n="rules.st1t"></b><span class="ru-step-p" data-i18n="rules.st1p"></span></article>
-        <article class="ru-step"><span class="ru-step-n">02</span><b data-i18n="rules.st2t"></b><span class="ru-step-p" data-i18n="rules.st2p"></span></article>
-        <article class="ru-step"><span class="ru-step-n">03</span><b data-i18n="rules.st3t"></b><span class="ru-step-p" data-i18n="rules.st3p"></span></article>
-        <article class="ru-step"><span class="ru-step-n">04</span><b data-i18n="rules.st4t"></b><span class="ru-step-p" data-i18n="rules.st4p"></span></article>
+      <h1 style="font-size:clamp(36px,5vw,58px)">Rules</h1>
+      <p class="sub">Play your match your way. Report it cleanly.</p>
+      <div class="ru-hero-cta">
+        <a class="btn btn-primary" href="https://tanktrouble.com/forum?threadId=475409" target="_blank" rel="noopener noreferrer">Open the thread</a>
+        <a class="btn btn-ghost" href="#/find">Find a 1v1</a>
       </div>
     </section>
-
-    <nav class="ru-toc" data-i18n-attr="aria-label:rules.tocAria">
-        <button type="button" class="ru-toc-btn" data-jump="r-01"><span class="ru-toc-n">01</span><span class="ru-toc-label" data-i18n="rules.s1t"></span></button>
-        <button type="button" class="ru-toc-btn" data-jump="r-02"><span class="ru-toc-n">02</span><span class="ru-toc-label" data-i18n="rules.s2t"></span></button>
-        <button type="button" class="ru-toc-btn" data-jump="r-03"><span class="ru-toc-n">03</span><span class="ru-toc-label" data-i18n="rules.s3t"></span></button>
-        <button type="button" class="ru-toc-btn" data-jump="r-04"><span class="ru-toc-n">04</span><span class="ru-toc-label" data-i18n="rules.s4t"></span></button>
-        <button type="button" class="ru-toc-btn" data-jump="r-05"><span class="ru-toc-n">05</span><span class="ru-toc-label" data-i18n="rules.s5t"></span></button>
-        <button type="button" class="ru-toc-btn" data-jump="r-06"><span class="ru-toc-n">06</span><span class="ru-toc-label" data-i18n="rules.s6t"></span></button>
-        <button type="button" class="ru-toc-btn" data-jump="r-07"><span class="ru-toc-n">07</span><span class="ru-toc-label" data-i18n="rules.s7t"></span></button>
-      <span class="ru-toc-rail" aria-hidden="true"></span>
-    </nav>
 
     <div class="ru-grid">
       <section class="panel ru-card reveal" id="r-01">
-        <div class="ru-head"><span class="ru-n">01</span><h2 data-i18n="rules.s1t"></h2></div>
-        <p class="ru-sec-lead" data-i18n="rules.s1i"></p>
-        <div class="ru-rules">
-            <div class="ru-row">
-              <span class="ru-id">1.1</span>
-              <p data-i18n-html="rules.r11"></p>
-              <span class="ru-tag ru-tag-req" data-i18n="rules.tagReq"></span>
-            </div>
-            <div class="ru-row">
-              <span class="ru-id">1.2</span>
-              <p data-i18n-html="rules.r12"></p>
-              <span class="ru-tag ru-tag-aut" data-i18n="rules.tagAut"></span>
-            </div>
-            <div class="ru-row">
-              <span class="ru-id">1.3</span>
-              <p data-i18n-html="rules.r13"></p>
-              <span class="ru-tag ru-tag-aut" data-i18n="rules.tagAut"></span>
-            </div>
-            <div class="ru-row">
-              <span class="ru-id">1.4</span>
-              <p data-i18n-html="rules.r14"></p>
-              
-            </div>
-        </div>
+        <div class="ru-head"><span class="ru-n">01</span><h2>Your match, your rules</h2></div>
+        <p class="ru-sec-lead">You and your opponent decide how the game itself is played: maps, settings, and how long the match lasts. Play first to 15, 30, 50, or any other total you both prefer.</p>
+        <p class="ru-sec-lead">If you cannot agree, the Standard Rules (below) apply.</p>
       </section>
+
       <section class="panel ru-card reveal" id="r-02">
-        <div class="ru-head"><span class="ru-n">02</span><h2 data-i18n="rules.s2t"></h2></div>
-        <p class="ru-sec-lead" data-i18n="rules.s2i"></p>
+        <div class="ru-head"><span class="ru-n">02</span><h2>A valid result needs four things</h2></div>
         <ul class="ru-check">
-          <li><span class="ru-tick" aria-hidden="true">✓</span><span class="ru-check-t" data-i18n="rules.chk1"></span><span class="ru-tag ru-tag-req" data-i18n="rules.tagReq"></span></li>
-          <li><span class="ru-tick" aria-hidden="true">✓</span><span class="ru-check-t" data-i18n="rules.chk2"></span><span class="ru-tag ru-tag-req" data-i18n="rules.tagReq"></span></li>
-          <li><span class="ru-tick" aria-hidden="true">✓</span><span class="ru-check-t" data-i18n="rules.chk3"></span><span class="ru-tag ru-tag-req" data-i18n="rules.tagReq"></span></li>
-          <li><span class="ru-tick" aria-hidden="true">✓</span><span class="ru-check-t" data-i18n="rules.chk4"></span><span class="ru-tag ru-tag-req" data-i18n="rules.tagReq"></span></li>
+          <li><span class="ru-tick" aria-hidden="true">&#10003;</span><span class="ru-check-t">Both usernames, exactly as they appear in the game.</span></li>
+          <li><span class="ru-tick" aria-hidden="true">&#10003;</span><span class="ru-check-t">Final score, with the winner listed first.</span></li>
+          <li><span class="ru-tick" aria-hidden="true">&#10003;</span><span class="ru-check-t">Proof of the result.</span></li>
+          <li><span class="ru-tick" aria-hidden="true">&#10003;</span><span class="ru-check-t">Date played, taken automatically from your forum post.</span></li>
         </ul>
-        <p class="ru-check-note" data-i18n="rules.chkNote"></p>
+        <p class="ru-check-note">You do not need to type the date separately. If you are reporting a match played earlier, state the actual date in the post.</p>
       </section>
+
       <section class="panel ru-card reveal" id="r-03">
-        <div class="ru-head"><span class="ru-n">03</span><h2 data-i18n="rules.s3t"></h2></div>
-        <p class="ru-sec-lead" data-i18n="rules.s3i"></p>
-        <div class="ru-rules">
-            <div class="ru-row">
-              <span class="ru-id">3.1</span>
-              <p data-i18n-html="rules.r31"></p>
-              <span class="ru-tag ru-tag-rec" data-i18n="rules.tagRec"></span>
-            </div>
-            <div class="ru-row">
-              <span class="ru-id">3.2</span>
-              <p data-i18n-html="rules.r32"></p>
-              <span class="ru-tag ru-tag-aut" data-i18n="rules.tagAut"></span>
-            </div>
-            <div class="ru-row">
-              <span class="ru-id">3.3</span>
-              <p data-i18n-html="rules.r33"></p>
-              <span class="ru-tag ru-tag-rec" data-i18n="rules.tagRec"></span>
-            </div>
-            <div class="ru-row">
-              <span class="ru-id">3.4</span>
-              <p data-i18n-html="rules.r34"></p>
-              <span class="ru-tag ru-tag-aut" data-i18n="rules.tagAut"></span>
-            </div>
-        </div>
+        <div class="ru-head"><span class="ru-n">03</span><h2>Where you played</h2></div>
+        <p class="ru-sec-lead">Mention the server. If the whole match was on one server, name it once.</p>
+        <p class="ru-sec-lead">If you changed servers, report the score separately for each server &ndash; for example: London 12&ndash;7 and Newark 3&ndash;2, final 15&ndash;9.</p>
       </section>
+
       <section class="panel ru-card reveal" id="r-04">
-        <div class="ru-head"><span class="ru-n">04</span><h2 data-i18n="rules.s4t"></h2></div>
-        <p class="ru-sec-lead" data-i18n="rules.s4i"></p>
-        <div class="ru-rules">
-            <div class="ru-row">
-              <span class="ru-id">4.1</span>
-              <p data-i18n-html="rules.r41"></p>
-              <span class="ru-tag ru-tag-aut" data-i18n="rules.tagAut"></span>
-            </div>
-            <div class="ru-row">
-              <span class="ru-id">4.2</span>
-              <p data-i18n-html="rules.r42"></p>
-              <span class="ru-tag ru-tag-aut" data-i18n="rules.tagAut"></span>
-            </div>
-            <div class="ru-row">
-              <span class="ru-id">4.3</span>
-              <p data-i18n-html="rules.r43"></p>
-              <span class="ru-tag ru-tag-aut" data-i18n="rules.tagAut"></span>
-            </div>
-            <div class="ru-row">
-              <span class="ru-id">4.4</span>
-              <p data-i18n-html="rules.r44"></p>
-              
-            </div>
-        </div>
+        <div class="ru-head"><span class="ru-n">04</span><h2>Post a clean match</h2></div>
+        <ul class="ru-check">
+          <li><span class="ru-tick" aria-hidden="true">&#10003;</span><span class="ru-check-t">Check both usernames letter for letter.</span></li>
+          <li><span class="ru-tick" aria-hidden="true">&#10003;</span><span class="ru-check-t">Write the score winner-first.</span></li>
+          <li><span class="ru-tick" aria-hidden="true">&#10003;</span><span class="ru-check-t">Name the server once, or split the score when multiple servers were used.</span></li>
+          <li><span class="ru-tick" aria-hidden="true">&#10003;</span><span class="ru-check-t">Attach a screenshot or replay.</span></li>
+          <li><span class="ru-tick" aria-hidden="true">&#10003;</span><span class="ru-check-t">If there is no screenshot or replay, have your opponent confirm the final score in the thread.</span></li>
+          <li><span class="ru-tick" aria-hidden="true">&#10003;</span><span class="ru-check-t">Leave ping, tank, settings, and other details out.</span></li>
+        </ul>
+        <p class="ru-check-note">A complete post is accepted. A post missing one of the four required fields is returned. That is the only reason.</p>
       </section>
+
       <section class="panel ru-card reveal" id="r-05">
-        <div class="ru-head"><span class="ru-n">05</span><h2 data-i18n="rules.s5t"></h2></div>
-        <p class="ru-sec-lead" data-i18n="rules.s5i"></p>
-        <div class="ru-rules">
-            <div class="ru-row">
-              <span class="ru-id">5.1</span>
-              <p data-i18n-html="rules.r51"></p>
-              <span class="ru-tag ru-tag-req" data-i18n="rules.tagReq"></span>
-            </div>
-            <div class="ru-row">
-              <span class="ru-id">5.2</span>
-              <p data-i18n-html="rules.r52"></p>
-              <span class="ru-tag ru-tag-aut" data-i18n="rules.tagAut"></span>
-            </div>
-            <div class="ru-row">
-              <span class="ru-id">5.3</span>
-              <p data-i18n-html="rules.r53"></p>
-              <span class="ru-tag ru-tag-req" data-i18n="rules.tagReq"></span>
-            </div>
-        </div>
+        <div class="ru-head"><span class="ru-n">05</span><h2>Proof</h2></div>
+        <p class="ru-sec-lead">The strongest proof is a screenshot or replay. If neither is available, confirmation of the final score by both players in the match thread is accepted on its own.</p>
       </section>
+
       <section class="panel ru-card reveal" id="r-06">
-        <div class="ru-head"><span class="ru-n">06</span><h2 data-i18n="rules.s6t"></h2></div>
-        <p class="ru-sec-lead" data-i18n="rules.s6i"></p>
-        <div class="ru-rules">
-            <div class="ru-row">
-              <span class="ru-id">6.1</span>
-              <p data-i18n-html="rules.r61"></p>
-              <span class="ru-tag ru-tag-enf" data-i18n="rules.tagEnf"></span>
-            </div>
-            <div class="ru-row">
-              <span class="ru-id">6.2</span>
-              <p data-i18n-html="rules.r62"></p>
-              
-            </div>
-            <div class="ru-row">
-              <span class="ru-id">6.3</span>
-              <p data-i18n-html="rules.r63"></p>
-              <span class="ru-tag ru-tag-enf" data-i18n="rules.tagEnf"></span>
-            </div>
-        </div>
-      </section>
-      <section class="panel ru-card reveal" id="r-07">
-        <div class="ru-head"><span class="ru-n">07</span><h2 data-i18n="rules.s7t"></h2></div>
-        <p class="ru-sec-lead" data-i18n="rules.s7i"></p>
-        <div class="ru-rules">
-            <div class="ru-row">
-              <span class="ru-id">7.1</span>
-              <p data-i18n-html="rules.r71"></p>
-              
-            </div>
-            <div class="ru-row">
-              <span class="ru-id">7.2</span>
-              <p data-i18n-html="rules.r72"></p>
-              
-            </div>
-            <div class="ru-row">
-              <span class="ru-id">7.3</span>
-              <p data-i18n-html="rules.r73"></p>
-              
-            </div>
-            <div class="ru-row">
-              <span class="ru-id">7.4</span>
-              <p data-i18n-html="rules.r74"></p>
-              <span class="ru-tag ru-tag-aut" data-i18n="rules.tagAut"></span>
-            </div>
-            <div class="ru-row">
-              <span class="ru-id">7.5</span>
-              <p data-i18n-html="rules.r75"></p>
-              <span class="ru-tag ru-tag-req" data-i18n="rules.tagReq"></span>
-            </div>
-            <div class="ru-row">
-              <span class="ru-id">7.6</span>
-              <p data-i18n-html="rules.r76"></p>
-              <span class="ru-tag ru-tag-aut" data-i18n="rules.tagAut"></span>
-            </div>
-            <div class="ru-row">
-              <span class="ru-id">7.7</span>
-              <p data-i18n-html="rules.r77"></p>
-              
-            </div>
-        </div>
+        <div class="ru-head"><span class="ru-n">06</span><h2>Standard Rules</h2></div>
+        <p class="ru-sec-lead">The Standard Rules exist as the fallback when players cannot agree on match length, settings, or other conditions.</p>
       </section>
     </div>
-
-    <nav class="ru-next" data-i18n-attr="aria-label:rules.nextAria">
-      <span class="ru-band-head" data-i18n="rules.nextTitle"></span>
-      <div class="ru-next-row">
-        <a class="ru-next-link" href="#/method"><span class="ru-next-txt" data-i18n="rules.next1"></span><span data-i18n="rules.next1tag"></span><i aria-hidden="true">→</i></a>
-        <a class="ru-next-link" href="#/find"><span class="ru-next-txt" data-i18n="rules.next2"></span><span data-i18n="rules.next2tag"></span><i aria-hidden="true">→</i></a>
-      </div>
-    </nav>
-
-    <section class="ru-spec-panel reveal">
-      <div class="ru-spec-col">
-        <div class="ru-band-head" data-i18n="rules.spec1Title"></div>
-        <p class="ru-spec-lead" data-i18n="rules.spec1Lead"></p>
-        <div class="ru-spec">
-            <div class="ru-spec-row"><span class="ru-spec-k" data-i18n="rules.fldDate"></span><span class="ru-spec-v" >2026-11-04</span><span class="ru-spec-req" aria-hidden="true">✓</span></div>
-            <div class="ru-spec-row"><span class="ru-spec-k" data-i18n="rules.fldP1"></span><span class="ru-spec-v" >Slayer</span><span class="ru-spec-req" aria-hidden="true">✓</span></div>
-            <div class="ru-spec-row"><span class="ru-spec-k" data-i18n="rules.fldP2"></span><span class="ru-spec-v" >No_Ammo</span><span class="ru-spec-req" aria-hidden="true">✓</span></div>
-            <div class="ru-spec-row"><span class="ru-spec-k" data-i18n="rules.fldScore"></span><span class="ru-spec-v" >15 - 9</span><span class="ru-spec-req" aria-hidden="true">✓</span></div>
-            <div class="ru-spec-row"><span class="ru-spec-k" data-i18n="rules.fldServer"></span><span class="ru-spec-v" >London</span><span class="ru-spec-req"></span></div>
-            <div class="ru-spec-row"><span class="ru-spec-k" data-i18n="rules.fldProof"></span><span class="ru-spec-v" data-i18n="rules.valProof"></span><span class="ru-spec-req" aria-hidden="true">✓</span></div>
-            <div class="ru-spec-row alt"><span class="ru-spec-k" data-i18n="rules.fldProofAlt"></span><span class="ru-spec-v" data-i18n="rules.valProofAlt"></span><span class="ru-spec-req"></span></div>
-        </div>
-        <p class="ru-spec-note" data-i18n="rules.spec1Note"></p>
-      </div>
-      <div class="ru-spec-col">
-        <div class="ru-band-head" data-i18n="rules.spec2Title"></div>
-        <p class="ru-spec-lead" data-i18n="rules.spec2Lead"></p>
-        <div class="ru-spec">
-            <div class="ru-spec-row"><span class="ru-spec-k" data-i18n="rules.fldDate"></span><span class="ru-spec-v" >2026-11-04</span><span class="ru-spec-req" aria-hidden="true">✓</span></div>
-            <div class="ru-spec-row"><span class="ru-spec-k" data-i18n="rules.fldP1"></span><span class="ru-spec-v" >Slayer</span><span class="ru-spec-req" aria-hidden="true">✓</span></div>
-            <div class="ru-spec-row"><span class="ru-spec-k" data-i18n="rules.fldP2"></span><span class="ru-spec-v" >No_Ammo</span><span class="ru-spec-req" aria-hidden="true">✓</span></div>
-            <div class="ru-spec-row"><span class="ru-spec-k" data-i18n="rules.fldScore"></span><span class="ru-spec-v" >15 - 9</span><span class="ru-spec-req" aria-hidden="true">✓</span></div>
-            <div class="ru-spec-row"><span class="ru-spec-k" data-i18n="rules.fldS1"></span><span class="ru-spec-v" >London</span><span class="ru-spec-req"></span></div>
-            <div class="ru-spec-row"><span class="ru-spec-k" data-i18n="rules.fldS2"></span><span class="ru-spec-v" >Newark</span><span class="ru-spec-req"></span></div>
-            <div class="ru-spec-row"><span class="ru-spec-k" data-i18n="rules.fldProof"></span><span class="ru-spec-v" data-i18n="rules.valProof"></span><span class="ru-spec-req" aria-hidden="true">✓</span></div>
-            <div class="ru-spec-row alt"><span class="ru-spec-k" data-i18n="rules.fldProofAlt"></span><span class="ru-spec-v" data-i18n="rules.valProofAlt"></span><span class="ru-spec-req"></span></div>
-        </div>
-        <p class="ru-spec-note" data-i18n="rules.spec2Note"></p>
-      </div>
-      <div class="ru-spec-col is-rej">
-        <div class="ru-band-head" data-i18n="rules.spec3Title"></div>
-        <p class="ru-spec-lead" data-i18n="rules.spec3Lead"></p>
-        <span class="ru-spec-rej-tag" data-i18n="rules.rejTag"></span>
-        <div class="ru-spec">
-            <div class="ru-spec-row"><span class="ru-spec-k" data-i18n="rules.fldDate"></span><span class="ru-spec-v" >2026-11-06</span><span class="ru-spec-req" aria-hidden="true">✓</span></div>
-            <div class="ru-spec-row"><span class="ru-spec-k" data-i18n="rules.fldP1"></span><span class="ru-spec-v" >Slayer</span><span class="ru-spec-req" aria-hidden="true">✓</span></div>
-            <div class="ru-spec-row"><span class="ru-spec-k" data-i18n="rules.fldP2"></span><span class="ru-spec-v" >No_Ammo</span><span class="ru-spec-req" aria-hidden="true">✓</span></div>
-            <div class="ru-spec-row"><span class="ru-spec-k" data-i18n="rules.fldScore"></span><span class="ru-spec-v" >15 - 4</span><span class="ru-spec-req" aria-hidden="true">✓</span></div>
-            <div class="ru-spec-row"><span class="ru-spec-k" data-i18n="rules.fldServer"></span><span class="ru-spec-v" >London</span><span class="ru-spec-req"></span></div>
-            <div class="ru-spec-row"><span class="ru-spec-k" data-i18n="rules.fldProof"></span><span class="ru-spec-v" data-i18n="rules.valNoProof"></span><span class="ru-spec-req miss" aria-hidden="true">✕</span></div>
-            <div class="ru-spec-row alt"><span class="ru-spec-k" data-i18n="rules.fldProofAlt"></span><span class="ru-spec-v" data-i18n="rules.valNoProofAlt"></span><span class="ru-spec-req"></span></div>
-        </div>
-        <p class="ru-spec-note" data-i18n="rules.spec3Note"></p>
-      </div>
-    </section>
-
-    <section class="ru-close reveal">
-      <div class="ru-close-txt">
-        <h2 data-i18n="rules.closeTitle"></h2>
-        <p data-i18n="rules.closeText"></p>
-      </div>
-      <a class="btn btn-primary ru-close-btn" href="https://tanktrouble.com/forum?threadId=475409" target="_blank" rel="noopener noreferrer" data-i18n="rules.openThread"></a>
-    </section>
   </div>
 </main>
 
@@ -1113,9 +827,10 @@
   <div class="wrap">
     <div class="foot-top">
       <div class="foot-brand">
-        <a class="foot-logo" href="#/" aria-label="Stats4Tanks"><span class="foot-logo-11">Stats</span><span class="foot-logo-word">4Tanks</span></a>
-        <p class="foot-tagline" data-i18n="foot.tagline">The definitive Tank Trouble 1v1 rankings - every recorded duel, rated by Glicko.</p>
-        <a class="foot-play" href="https://tanktrouble.com/" target="_blank" rel="noopener noreferrer"><span data-i18n="site.playTT">Play Tank Trouble</span>
+        <a class="foot-logo" href="#/" aria-label="TierStats"><span class="foot-logo-11">Tier</span><span class="foot-logo-word">Stats</span></a>
+        <p class="foot-owner-line" data-i18n-html="foot.owned">Owned &amp; run by <a class="foot-owner" href="#/player/Alternator">Alternator</a> &amp; <a class="foot-owner" href="#/player/interstellar">interstellar</a></p>
+        <p class="foot-tagline" data-i18n="foot.tagline">The definitive TankTrouble 1v1 rankings - every recorded duel, rated by Glicko.</p>
+        <a class="foot-play" href="https://tanktrouble.com/" target="_blank" rel="noopener noreferrer"><span data-i18n="site.playTT">Play TankTrouble</span>
           <svg class="ext-ico" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true" focusable="false"><path d="M7 17 17 7M8 7h9v9" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
         <a class="foot-forum" href="https://tanktrouble.com/forum?threadId=475409" target="_blank" rel="noopener noreferrer"><span data-i18n="site.forumThread">Forum thread</span>
@@ -1136,15 +851,10 @@
         <a href="#/rules" data-i18n="nav.rules">Rules</a>
         <a href="#/faq" data-i18n="nav.faq">FAQ</a>
       </nav>
-      <div class="foot-col foot-about" role="group" aria-label="About" data-i18n-attr="aria-label:foot.about">
-        <p class="foot-owner-line" data-i18n-html="foot.owned">Owned &amp; run by <a class="foot-owner" href="#/player/Alternator">Alternator</a> &amp; <a class="foot-owner" href="#/player/interstellar">interstellar</a></p>
-        <p class="foot-note" data-i18n-html="foot.ratings">Ratings by the <b>Dynamic Glicko</b> system · data from the community match archive</p>
-        <span class="foot-season" data-i18n-html="home.chipSeason">Season <b>2026</b></span>
-      </div>
     </div>
     <div class="foot-bottom">
-      <span class="foot-copy" data-i18n-html="foot.rights">© 2026 <b>Stats4Tanks</b> - Tank Trouble competitive rankings.</span>
-      <span class="foot-updated" id="foot-updated"></span>
+      <span class="foot-copy" data-i18n-html="foot.rights">© 2026 <b>TierStats</b> - TankTrouble competitive rankings.</span>
+      
     </div>
   </div>
 </footer>
@@ -1275,7 +985,7 @@
 <button class="to-top" id="to-top" aria-label="Back to top" title="Back to top" data-i18n-attr="aria-label:misc.toTop;title:misc.toTop">
   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1"><path d="M6 12.5l6-6 6 6M6 18.5l6-6 6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
 </button>
-<script src="i18n.js?v=20261111120000"></script>
+<script src="i18n.js?v=20261111228000"></script>
 <script>
   /* data.js is rewritten by the sheet sync worker outside of site deploys -
      load it with a per-request cache-buster so every refresh shows the
@@ -1284,12 +994,12 @@
   document.write('<script src="data.js?t=' + Date.now() + '\"><\/script>');
 </script>
 <script src="log.js?v=1794225931899"></script>
-<script src="tanks.js?v=20261111120000"></script>
-<script src="tankrender.js?v=20261111120000"></script>
-<script src="cards.js?v=20261111120000"></script>
-<script src="tourneys.js?v=20261111120000"></script>
-<script src="app.js?v=20261111120000"></script>
-<script src="rankmove.js?v=20261111120000"></script>
+<script src="tanks.js?v=20261111228000"></script>
+<script src="tankrender.js?v=20261111228000"></script>
+<script src="cards.js?v=20261111228000"></script>
+<script src="tourneys.js?v=20261111228000"></script>
+<script src="app.js?v=20261111228000"></script>
+<script src="rankmove.js?v=20261111228000"></script>
 <script>
 /* Offline board + fast repeat visits.
    The version number is this page's own asset stamp, so every publish is a new
