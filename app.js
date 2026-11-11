@@ -664,23 +664,6 @@
           ${wt}
         </div>
       </div>`:se(t("an.noMovers"));y("#an-grid").innerHTML=`
-    <section class="an-panel an-span-6 an-upsets an-upsets-compact">
-      <div class="an-panel-head"><h2 class="an-h">${c(t("an.biggestUpsets"))}</h2><span class="an-panel-n">${c(tp("an.upsets",v.length))}</span></div>
-      <div class="an-upsets-flat">${B}</div>
-    </section>
-    <section class="an-panel an-span-6">
-      <div class="an-panel-head"><h2 class="an-h">${c(t("an.avgOpp"))}</h2><span class="an-panel-n">${c(q)}</span></div>
-      <div class="an-avg-list">${j}</div>
-      <div class="an-move-note">${c(t("an.avgOppNote"))}</div>
-    </section>
-    <section class="an-panel an-span-7">
-      <div class="an-panel-head"><h2 class="an-h">${c(t("an.topWinRate"))}</h2><span class="an-panel-n">${c(q)}</span></div>
-      ${P}
-    </section>
-    <section class="an-panel an-span-5">
-      <div class="an-panel-head"><h2 class="an-h">${c(t("an.mostMatches"))}</h2><span class="an-panel-n">${c(q)}</span></div>
-      ${K}
-    </section>
     <section class="an-panel an-span-12 an-activity">
       <div class="an-panel-head"><h2 class="an-h">${c(t("an.mostActive"))}</h2><span class="an-panel-n">${c(t("an.range30"))}</span></div>
       ${X.length?`<div class="an-activity-grid">${k}</div>`:se(t("an.noActivity"))}
@@ -690,6 +673,14 @@
       <div class="an-panel-head"><h2 class="an-h">${c(t("an.climbers"))}</h2><span class="an-panel-n">${c(t("an.datedMovement"))}</span></div>
       ${Jt}
     </section>
+    <section class="an-panel an-span-7">
+      <div class="an-panel-head"><h2 class="an-h">${c(t("an.topWinRate"))}</h2><span class="an-panel-n">${c(q)}</span></div>
+      ${P}
+    </section>
+    <section class="an-panel an-span-5">
+      <div class="an-panel-head"><h2 class="an-h">${c(t("an.mostMatches"))}</h2><span class="an-panel-n">${c(q)}</span></div>
+      ${K}
+    </section>
     <section class="an-panel an-span-7 an-eq">
       <div class="an-panel-head"><h2 class="an-h">${c(t("an.rivalries"))}</h2><span class="an-panel-n">${c(tp("an.pairs",f.length))}</span></div>
       ${Y}
@@ -698,6 +689,15 @@
       <div class="an-panel-head"><h2 class="an-h">${c(t("an.tiersInPlay"))}</h2><span class="an-panel-n">${c(tp("an.nPlayers",g))}</span></div>
       ${at}
       ${g?`<div class="an-tier-foot"><span>${c(t("an.currentRatings"))}</span><span>${c(t("an.median"))} <b>${E.toFixed(1)}</b></span></div>`:""}
+    </section>
+    <section class="an-panel an-span-6 an-upsets an-upsets-compact">
+      <div class="an-panel-head"><h2 class="an-h">${c(t("an.biggestUpsets"))}</h2><span class="an-panel-n">${c(tp("an.upsets",v.length))}</span></div>
+      <div class="an-upsets-flat">${B}</div>
+    </section>
+    <section class="an-panel an-span-6">
+      <div class="an-panel-head"><h2 class="an-h">${c(t("an.avgOpp"))}</h2><span class="an-panel-n">${c(q)}</span></div>
+      <div class="an-avg-list">${j}</div>
+      <div class="an-move-note">${c(t("an.avgOppNote"))}</div>
     </section>`;let Ce=()=>{J("#an-grid .an-bar i, #an-grid .an-tier-bar i, #an-grid .an-act-bar i").forEach(b=>{b.dataset.w!=null&&(b.style.width=b.dataset.w+"%")})};requestAnimationFrame(Ce),setTimeout(Ce,140),typeof Nt=="function"&&Nt(y("#an-grid")),document.getElementById("method-lab")&&(cs(),ca())}var Ps=y("#an-controls");Ps&&Ps.addEventListener("click",e=>{let n=e.target.closest("[data-an-range]");if(n){Ut=n.dataset.anRange==="all"?"all":Number(n.dataset.anRange),Hn();return}let a=e.target.closest("[data-an-min]");if(a){Rt=Number(a.dataset.anMin),Hn();return}e.target.closest("#an-reset")&&(Ut="all",Rt=5,Hn())});var rs=1;function In(e,n,a,s){let i=document.getElementById(e),o=i?Number(i.value):NaN;return Number.isFinite(o)?Math.max(n,Math.min(a,o)):s}function ca(){let e=In("ml-r1",1,4e3,1650),n=In("ml-rd1",1,F.maxRd,60),a=In("ml-r2",1,4e3,1600),s=In("ml-rd2",1,F.maxRd,80),i=rs,o=Gn(e,a,s),[r,l]=oe(e,n,[[a,s,i]]),[u,h]=oe(a,s,[[e,n,1-i]]),d=e-F.conservative*n,v=r-F.conservative*l,p=a-F.conservative*s,f=u-F.conservative*h,m=v-d,$=f-p,x=(D,g)=>{let w=document.getElementById(D);w&&(w.textContent=g)},L=(D,g)=>{let w=document.getElementById(D);w&&(w.textContent=Math.abs(g)<.05?"0.0":`${g>0?"+":"\u2212"}${Math.abs(g).toFixed(1)}`,w.classList.toggle("up",g>.05),w.classList.toggle("down",g<-.05))};x("ml-exp",`${(Math.max(0,Math.min(1,o))*100).toFixed(1)}%`);let C=document.getElementById("ml-prob-fill");C&&(C.style.width=`${(Math.max(0,Math.min(1,o))*100).toFixed(2)}%`),x("ml-v1b",d.toFixed(1)),x("ml-v1a",v.toFixed(1)),x("ml-v2b",p.toFixed(1)),x("ml-v2a",f.toFixed(1)),x("ml-sub1",t("method.labAfter",{r:r.toFixed(1),rd:l.toFixed(1)})),x("ml-sub2",t("method.labAfter",{r:u.toFixed(1),rd:h.toFixed(1)})),L("ml-d1",m),L("ml-d2",$)}function cs(){J("#method-lab [data-ml-result]").forEach(e=>{let n=Number(e.dataset.mlResult)===rs;e.classList.toggle("on",n),e.setAttribute("aria-pressed",String(n))})}function vc(e){rs=e,cs(),ca()}function mc(){let e=(a,s)=>{let i=document.getElementById(a);i&&(i.textContent=s)};e("method-period-val",String(F.periodDays)),e("method-inactive-val",String(F.inactiveDays)),e("method-decay-period",F.periodDays+"d"),e("method-decay-inactive",F.inactiveDays+"d");let n=y("#settings-body");n&&(n.innerHTML=oi().map(a=>`
     <tr><td><b>${c(a.name)}</b><div style="color:var(--dimmer);font-size:12.5px">${c(a.desc)}</div></td>
         <td class="val">${c(String(a.value))}</td></tr>`).join("")),cs(),ca()}var Hs=y("#method-lab");Hs&&Hs.addEventListener("click",e=>{let n=e.target.closest("[data-ml-result]");n&&vc(Number(n.dataset.mlResult))});["ml-r1","ml-rd1","ml-r2","ml-rd2"].forEach(e=>{let n=document.getElementById(e);n&&n.addEventListener("input",ca)});var jt="all",re="",zi=[["all","faq.catAll"],["ratings","faq.catRatings"],["ranking","faq.catRanking"],["data","faq.catData"],["account","faq.catAccount"],["site","faq.catSite"],["other","faq.catOther"]],hc='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m6 9 6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>',Vs=e=>String(e||"").replace(/<[^>]*>/g," ").replace(/\s+/g," ").trim();function gc(e){let n=zi.find(([a])=>a===e);return t(n?n[1]:"faq.catOther")}function bc(){return[["q4","ranking"],["q1","ratings"],["q12","account"],["q2","ratings"],["q3","ratings"],["q5","ranking"],["q6","ranking"],["q9","data"],["q8","data"],["q10","data"],["q7","ratings"],["q11","site"],["q13","ranking"],["q14","site"]].map(([n,a])=>({q:t("faq."+n),a:t("faq.a"+n.slice(1)),cat:a,key:n}))}function Ki(){let e=At().faq;return Array.isArray(e)&&e.length?e.map((n,a)=>({q:String(n.q||""),a:String(n.a||""),cat:"other",key:"o"+a})):bc()}function wc(){let e=y("#faq-ladder");if(!e)return;let n=window.cardsTiers;if(!n||!Array.isArray(n.TIER_KEYS)){e.innerHTML="";return}let{TIER_KEYS:a,tierOf:s,tierIdx:i,tierMin:o,tierLabel:r,crestSVG:l}=n,u={};a.forEach(f=>{u[f]=0}),(ft.players||[]).forEach(f=>{f&&f.rating!=null&&(u[s(f.rating)]+=1)});let h=a.reduce((f,m)=>f+u[m],0),d=Math.max(...Object.values(u),1);e.innerHTML=a.slice().reverse().map(f=>{let m=i(f),$=o(f),x=a[m+1]!=null?o(a[m+1]):null,L=m===0?`< ${Math.round(x)}`:x!=null?`${Math.round($)}\u2013${Math.round(x)-1}`:`${Math.round($)}+`,C=u[f],D=h?Math.round(C/h*100):0;return`
