@@ -28,13 +28,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261111231000">
-<link rel="stylesheet" href="cards.css?v=20261111231000">
-<link rel="stylesheet" href="rankmove.css?v=20261111231000">
-<link rel="icon" type="image/svg+xml" href="/art/favicon.svg?v=20261111231000">
-<link rel="apple-touch-icon" href="/art/icon-192.png?v=20261111231000">
+<link rel="stylesheet" href="styles.css?v=20261111232000">
+<link rel="stylesheet" href="cards.css?v=20261111232000">
+<link rel="stylesheet" href="rankmove.css?v=20261111232000">
+<link rel="icon" type="image/svg+xml" href="/art/favicon.svg?v=20261111232000">
+<link rel="apple-touch-icon" href="/art/icon-192.png?v=20261111232000">
 <!-- installable: the same plate, the same colours, no separate icon work -->
-<link rel="manifest" href="/manifest.webmanifest?v=20261111231000">
+<link rel="manifest" href="/manifest.webmanifest?v=20261111232000">
 </head>
 <body>
 <a class="skip-link" href="#main" data-i18n="a11y.skip">Skip to content</a>
@@ -50,7 +50,7 @@
           <path fill-rule="evenodd" d="M9.2 11.4V8.6c0-.75.6-1.35 1.35-1.35h2.9c.75 0 1.35.6 1.35 1.35v2.8H9.2Zm2.8-1.5a1.05 1.05 0 1 0 0 2.1 1.05 1.05 0 0 0 0-2.1Z"/>
           <path d="M14.4 8.15h8.38c.52 0 .94.42.94.94v.42c0 .52-.42.94-.94.94H14.4V8.15Z"/>
         </svg>
-        <img class="brand-tank-img" src="/art/brand-tank.png?v=20261111231000" width="395" height="282" alt="" draggable="false">
+        <img class="brand-tank-img" src="/art/brand-tank.png?v=20261111232000" width="395" height="282" alt="" draggable="false">
       </span>
       <span class="brand-lock" aria-hidden="true"><b>TierStats</b></span>
     </a>
@@ -566,14 +566,7 @@
           <div class="fq-list" id="faq-list"></div>
         </div>
       </div>
-      <aside class="fq-side">
-        <section class="panel fq-help-panel reveal">
-          <h2 data-i18n="faq.stuck">Still stuck on something?</h2>
-          <p data-i18n="faq.stuckBody">Send us a message - the team reads every one and you can check back for a reply.</p>
-          <button class="btn btn-primary" id="faq-feedback-btn" data-i18n="faq.sendBtn">Send feedback</button>
-        </section>
-      </aside>
-    </div>
+      </div>
   </div>
 </main>
 
@@ -659,89 +652,6 @@
 
 
 <!-- ======================= FEEDBACK ======================= -->
-<button class="fab" id="fab-feedback" aria-label="Feedback" title="Feedback" aria-haspopup="dialog" data-i18n-attr="aria-label:fab.feedback;title:fab.feedback">
-  <span class="fab-ico" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1"><path d="M21 12a8 8 0 0 1-8 8H5l-2 2V12a8 8 0 0 1 8-8h2a8 8 0 0 1 8 8Z" stroke-linejoin="round"/><path d="M8.5 11h7M8.5 14.5h4" stroke-linecap="round"/></svg></span>
-  <span data-i18n="fab.feedback">Feedback</span>
-</button>
-
-<div class="fb-overlay" id="fb-overlay" aria-hidden="true" inert>
-  <div class="fb-modal" role="dialog" aria-modal="true" aria-labelledby="fb-title">
-    <button class="fb-close" id="fb-close" aria-label="Close" data-i18n-attr="aria-label:fb.close"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
-    <div class="fb-view" id="fb-view-form">
-      <div class="fb-head">
-        <span class="fb-head-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M21 12a8 8 0 0 1-8 8H5l-2 2V12a8 8 0 0 1 8-8h2a8 8 0 0 1 8 8Z" stroke-linejoin="round"/><path d="M8.5 11h7M8.5 14.5h4" stroke-linecap="round"/></svg></span>
-        <div class="fb-head-txt">
-          <div class="fb-kicker" data-i18n="fb.kicker">Talk to the team</div>
-          <h2 class="fb-title" id="fb-title" data-i18n-html="fb.title">Send us your <span class="gold">feedback</span></h2>
-          <p class="fb-sub" data-i18n="fb.sub">Bug report, idea, question or a shout-out - every message is read by a human.</p>
-        </div>
-      </div>
-      <div class="fb-tabs" role="tablist" aria-label="Feedback options">
-        <button class="fb-tab on" id="fb-tab-send" role="tab" aria-selected="true" aria-controls="fb-pane-send" data-i18n="fb.tabSend">Send a message</button>
-        <button class="fb-tab" id="fb-tab-check" role="tab" aria-selected="false" aria-controls="fb-pane-check" data-i18n="fb.tabCheck">Check a reply</button>
-      </div>
-      <div class="fb-pane" id="fb-pane-send" role="tabpanel" aria-labelledby="fb-tab-send">
-        <div class="fb-grid">
-          <div class="fb-field">
-            <label for="fb-name"><span data-i18n="fb.name">Name</span> <span class="opt" data-i18n="fb.optional">optional</span></label>
-            <input id="fb-name" maxlength="60" placeholder="What should we call you?" data-i18n-attr="placeholder:fb.namePh" autocomplete="off">
-          </div>
-          <div class="fb-field">
-            <label for="fb-contact"><span data-i18n="fb.contact">Email or Discord</span> <span class="opt" data-i18n="fb.optional">optional</span></label>
-            <input id="fb-contact" maxlength="120" placeholder="you@example.com" data-i18n-attr="placeholder:fb.contactPh" autocomplete="off">
-          </div>
-        </div>
-        <div class="fb-field fb-field-msg">
-          <label for="fb-msg" data-i18n="fb.message">Your message</label>
-          <textarea id="fb-msg" maxlength="2000" rows="5" placeholder="Type your message…" data-i18n-attr="placeholder:fb.msgPh"></textarea>
-          <div class="fb-count"><span id="fb-count-n">0</span> / 2000</div>
-        </div>
-        <button class="btn btn-primary fb-send" id="fb-send">
-          <span class="lbl" data-i18n="fb.send">Send message</span>
-          <span class="spin" aria-hidden="true"></span>
-        </button>
-        <p class="fb-foot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4.5" y="10" width="15" height="10" rx="2.5"/><path d="M8 10V7.5a4 4 0 0 1 8 0V10" stroke-linecap="round"/></svg><span data-i18n="fb.footNote">Read by a human. Keep your ticket code to check for a reply.</span></p>
-      </div>
-      <div class="fb-pane" id="fb-pane-check" role="tabpanel" aria-labelledby="fb-tab-check" hidden>
-        <p class="fb-pane-sub" data-i18n="fb.checkSub">Enter the ticket code you got when you sent your message.</p>
-        <div class="fb-check-form">
-          <input id="fb-ticket-in" maxlength="32" placeholder="TS-XXXXXX" data-i18n-attr="placeholder:fb.ticketPh" autocomplete="off">
-          <button class="btn btn-ghost fb-check-btn" id="fb-check"><span class="lbl" data-i18n="fb.check">Check</span><span class="spin" aria-hidden="true"></span></button>
-        </div>
-        <div class="fb-recent" id="fb-recent" hidden>
-          <span class="fb-recent-k" data-i18n="fb.recent">Recent tickets</span>
-          <div class="fb-recent-list" id="fb-recent-list"></div>
-        </div>
-        <div class="fb-reply-wrap" id="fb-reply-wrap">
-          <div class="fb-reply-head" id="fb-reply-head"><span data-i18n="fb.replyKicker">Team replies</span><span class="fb-reply-n" id="fb-reply-n" hidden></span></div>
-          <div class="fb-reply-out" id="fb-reply-out"></div>
-        </div>
-        <p class="fb-foot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 8v5M12 16.4h.01" stroke-linecap="round"/><circle cx="12" cy="12" r="9"/></svg><span data-i18n="fb.footCheck">Replies appear here as soon as the team writes back.</span></p>
-      </div>
-    </div>
-    <div class="fb-view fb-done" id="fb-view-done" hidden>
-      <div class="fb-checkmark">
-        <svg viewBox="0 0 72 72" width="72" height="72">
-          <circle class="fb-cm-circle" cx="36" cy="36" r="32"/>
-          <path class="fb-cm-tick" d="M22 37.5 31.5 47 50 27"/>
-        </svg>
-      </div>
-      <h2 class="fb-title" data-i18n="fb.thanks">This helps a lot - thank you!</h2>
-      <p class="fb-sub" data-i18n="fb.thanksSub">Your message is being reviewed. Keep your ticket code to check back for a reply.</p>
-      <div class="fb-ticket" role="button" tabindex="0" title="Click to copy the ticket code" data-i18n-attr="title:fb.ticketTip">
-        <span class="fb-ticket-k"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><path d="M4 8.5V7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v1.5a2.6 2.6 0 0 0 0 5V17a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-3.5a2.6 2.6 0 0 0 0-5Z"/><path d="M13.5 5v14" stroke-dasharray="2.4 2.6"/></svg><span data-i18n="fb.ticketWord">Ticket</span></span>
-        <b id="fb-ticket-code">-</b>
-        <span class="fb-ticket-copy" data-i18n="fb.ticketCopy">Click to copy</span>
-        <span class="fb-copied" id="fb-copied" data-i18n="fb.copied">Copied ✓</span>
-      </div>
-      <div class="fb-done-actions">
-        <button class="btn btn-primary" id="fb-done" data-i18n="fb.done">Done</button>
-        <button class="fb-link" id="fb-done-check" data-i18n="fb.checkLink">Check a reply</button>
-      </div>
-    </div>
-  </div>
-</div>
-
 <!-- ======================= RULES ======================= -->
 <main id="page-rules" class="page">
   <div class="wrap">
@@ -964,7 +874,7 @@
 <button class="to-top" id="to-top" aria-label="Back to top" title="Back to top" data-i18n-attr="aria-label:misc.toTop;title:misc.toTop">
   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1"><path d="M6 12.5l6-6 6 6M6 18.5l6-6 6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
 </button>
-<script src="i18n.js?v=20261111231000"></script>
+<script src="i18n.js?v=20261111232000"></script>
 <script>
   /* data.js is rewritten by the sheet sync worker outside of site deploys -
      load it with a per-request cache-buster so every refresh shows the
@@ -973,12 +883,12 @@
   document.write('<script src="data.js?t=' + Date.now() + '\"><\/script>');
 </script>
 <script src="log.js?v=1794225931899"></script>
-<script src="tanks.js?v=20261111231000"></script>
-<script src="tankrender.js?v=20261111231000"></script>
-<script src="cards.js?v=20261111231000"></script>
-<script src="tourneys.js?v=20261111231000"></script>
-<script src="app.js?v=20261111231000"></script>
-<script src="rankmove.js?v=20261111231000"></script>
+<script src="tanks.js?v=20261111232000"></script>
+<script src="tankrender.js?v=20261111232000"></script>
+<script src="cards.js?v=20261111232000"></script>
+<script src="tourneys.js?v=20261111232000"></script>
+<script src="app.js?v=20261111232000"></script>
+<script src="rankmove.js?v=20261111232000"></script>
 <script>
 /* Offline board + fast repeat visits.
    The version number is this page's own asset stamp, so every publish is a new

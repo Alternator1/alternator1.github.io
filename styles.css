@@ -17,3 +17,6 @@
    in the narrow two/three-column strip. */
 .stat-strip .v{white-space:nowrap}
 @media(max-width:560px){.stat-strip .v{font-size:clamp(18px,7.2vw,26px)}}
+
+/* Feedback widget removed - FAQ sheet takes the full width */
+.fq-layout{grid-template-columns:minmax(0,1fr)}
